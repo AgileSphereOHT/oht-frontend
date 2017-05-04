@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title th:text="#{home.title}">Retrieve Next Case</title>
+
+    <div th:if="false">
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script src="http://blackpeppersoftware.github.io/thymeleaf-fragment.js/thymeleaf-fragment.js" defer="defer"></script>
+        <!--UX stuff here-->
+    </div>
+
+    <object th:replace="fragments/global_includes :: global_includes" th:remove="tag">...</object>
+</head>
+<body>
+
+<div th:replace="fragments/oht_header :: header">...</div>
+
+<main id="content" role="main">
+    <div th:replace="fragments/alpha-banner :: alpha-banner">...</div>
+
+    <div class="column-three-thirds">
+        <h1 class="heading-large"><span th:text="#{your.cases}">Your cases</span><span class="heading-secondary"></span></h1>
+        <p><span th:text="#{hello}">Hello</span> <span th:text="${userFirstName}">John</span><span th:text="#{first.case.of.day}">, if you're ready you can get your first case of the day</span></p>
+    </div>
+    <form action="/request/s1request">
+        <div class="form-group">
+            <input class="button" type="submit" th:value="#{get.case}" />
+        </div>
+    </form>
+    <p>
+        <a href="#" th:text="#{add.manual.request}">Add a manual request</a>
+    </p>
+    <a href="#" th:text="#{add.manual.registration}">Add a manual registration</a>
+</main>
+
+<div th:replace="fragments/footer :: footer">...</div>
+
+</body>
+</html>

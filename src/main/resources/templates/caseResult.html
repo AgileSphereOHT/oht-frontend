@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+    <head></head>
+    <body>
+        <div th:fragment="resultsList" th:if="${!case.isEmpty()}" id="results-block">
+            <h3 class="heading-medium">Case : <span th:text="${case.id}"></span></h3>
+            <table>
+                <thead>
+                <tr class="list-bullet">
+                    <th class="text" scope="col" th:text="#{case.version}">Version</th>
+                    <th class="text" scope="col" th:text="#{case.name}">Name</th>
+                    <th class="text" scope="col" th:text="#{case.document.display-name}">Display Name</th>
+                    <th class="text" scope="col" th:text="#{case.document.type}">Document Type</th>
+                    <th class="text" scope="col" th:text="#{case.document.id}">View Document</th>
+                    <th class="text" scope="col" th:text="#{case.document.status}">Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="list-bullet">
+                    <td class="text" th:text="${case.creator.id}">version</td>
+                    <td class="text" th:text="${case.subject.name} + ' ' + ${case.subject.surname}">name</td>
+                    <td class="text" th:text="${case.documents[0].displayName}">document name</td>
+                    <td class="text" th:text="${case.documents[0].type}">document type</td>
+                    <td class="text">
+                        <a href="javascript:void(0);" th:onclick="'javascript:retrieveDocument(\'' + ${case.id} + '\', \'' + ${case.documents[0].id} + '\');'">View Document</a>
+                    </td>
+                    <td th:text="${case.documents[0].status}">status</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>

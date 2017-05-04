@@ -1,0 +1,33 @@
+<!--Generic Website Footer HTML-->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<div th:fragment="footer">
+    <footer class="group js-footer" id="footer" role="contentinfo">
+        <div class="footer-wrapper">
+            <div class="footer-meta">
+                <h2 class="visuallyhidden">Support links</h2>
+                <div class="footer-meta-inner">
+                    <ul>
+                        <li>
+                            <a th:if="__${#locale}__=='en'" href="/home?lang=cy">Cymraeg</a>
+                            <a th:if="__${#locale}__!='en'" href="/home?lang=en">English</a>
+                        </li>
+                        <br/>
+                        <li th:text="#{built.by}">Built by the Overseas Healthcare Team, Washington, UK</li>
+                    </ul>
+                    <div class="open-government-licence">
+                        <p class="logo"><a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" rel="license">Open Government Licence</a></p>
+                        <p><span th:text="#{all.content}">All content is available under the</span> <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" rel="license"><span th:text="#{open.licence}">Open Government Licence v3.0</span></a>, <span th:text="#{except.other}">except where otherwise stated</span></p>
+                    </div>
+                </div>
+
+                <div class="copyright">
+                    <a href="http://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/copyright-and-re-use/crown-copyright/">&copy; <span th:text="#{crown.copyright}">Crown copyright</span></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+</html>
+

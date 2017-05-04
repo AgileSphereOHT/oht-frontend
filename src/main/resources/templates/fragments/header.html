@@ -1,0 +1,26 @@
+<!--Generic Website Header HTML-->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<div th:fragment="header">
+    <header role="banner" id="global-header" class="with-proposition">
+        <div class="header-wrapper">
+            <div class="header-global">
+                <div class="header-logo">
+                    <a href="https://www.gov.uk" th:attr="title=#{goto.gov}" id="logo" class="content">
+                        <img src="../images/gov.uk_logotype_crown_invert_trans.png" width="36" height="32" alt=""> GOV.UK
+                    </a>
+                </div>
+            </div>
+            <div class="header-proposition">
+                <div class="content">
+                    <a href="#proposition-links" class="js-header-toggle menu">Menu</a>
+                    <nav id="proposition-menu">
+                        <a href="/" id="proposition-name" th:text="#{overseas.healthcase}">Overseas Healthcare</a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div id="global-header-bar"></div>
+</div>
+</html>

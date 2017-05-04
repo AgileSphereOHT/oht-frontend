@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true">
+    <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <charset>UTF-8</charset>
+            <Pattern>console - %d %-4relative [%thread] %-5level %logger - %msg%n</Pattern>
+        </encoder>
+    </appender>
+
+    <appender name="securityAppender" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <charset>UTF-8</charset>
+            <Pattern>security - %d %-4relative [%thread] %-5level %class - %msg%n</Pattern>
+        </encoder>
+    </appender>
+
+    <logger name="security" level="DEBUG" additivity="false">
+        <appender-ref ref="securityAppender"/>
+    </logger>
+    <logger name="org" level="ERROR"/>
+    <root level="DEBUG">
+        <appender-ref ref="consoleAppender" />
+    </root>
+</configuration>

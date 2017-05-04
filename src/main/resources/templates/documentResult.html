@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head></head>
+    <body>
+        <div th:fragment="resultsList" th:if="${!document.isEmpty()}" id="results-block">
+            <h3 class="heading-medium" th:if="${document.containsKey('S071')}">Document : <span th:text="${document.S071.sedPackage}"></span></h3>
+            <table>
+                <thead>
+                <tr class="list-bullet">
+                    <th class="text" scope="col" th:text="#{document.version}">SED Version</th>
+                    <th class="text" scope="col" th:text="#{document.sed}">SED</th>
+                    <th class="text" scope="col" th:text="#{document.person-name}">Name</th>
+                    <th class="text" scope="col" th:text="#{document.person-date-of-birth}">Date Of Birth</th>
+                    <th class="text" scope="col" th:text="#{document.person-gender}">Gender</th>
+                    <th class="text" scope="col" th:text="#{document.registration.for}">Insured</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${document.containsKey('S071')}" class="list-bullet">
+                    <td class="text" th:text="${document.S071.sedGVer}">sed version</td>
+                    <td class="text">S071</td>
+                    <td class="text" th:text="${document.S071.Person.PersonIdentification.forename} + ' ' + ${document.S071.Person.PersonIdentification.familyName}">name</td>
+                    <td class="text" th:text="${document.S071.Person.PersonIdentification.dateBirth}">date of birth</td>
+                    <td class="text" th:text="${document.S071.Person.PersonIdentification.sex}">gender</td>
+                    <td class="text" th:text="${document.S071.StatusOfPersonForWhomAnEntitlementDocument.status}">insured</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,190 @@
+buildscript {
+    ext {
+        springBootVersion = '1.5.3.RELEASE'
+    }
+    repositories {
+        jcenter()
+        mavenCentral()
+        maven {
+            url "${artifactory_url}repo"
+            credentials {
+                username = "${artifactory_user}"
+                password = "${artifactory_password}"
+            }
+        }
+    }
+    dependencies {
+        classpath(group: 'org.jfrog.buildinfo', name: 'build-info-extractor-gradle', version: '4.4.17')
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath 'com.kenshoo:gradle-fpm:0.5'
+        classpath 'org.owasp:dependency-check-gradle:1.4.5.1'
+    }
+}
+
+String candidate = "$System.env.BRANCH_NAME".contentEquals('feature/future') ? 'RELEASE' : 'SNAPSHOT'
+
+allprojects {
+    apply plugin: 'com.jfrog.artifactory'
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'maven-publish'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'fpm-packaging'
+    apply plugin: 'org.owasp.dependencycheck'
+    version = "1.0.0-${candidate}"
+    archivesBaseName = 'oht-rina-registration'
+    group = 'uk.doh.oht'
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+    description = 'Rina registration process'
+}
+
+String repo = version.endsWith('SNAPSHOT') ? 'libs-snapshot-local' : 'libs-release-local'
+
+artifactory {
+    contextUrl = "${artifactory_url}"   //The base Artifactory URL if not overridden by the publisher/resolver
+    publish {
+        mavenLocal()
+        repository {
+            repoKey = repo
+            username = "${artifactory_user}"
+            password = "${artifactory_password}"
+            maven = true
+
+        }
+        defaults {
+            // Reference to Gradle publications defined in the build script.
+            // This is how we tell the Artifactory Plugin which artifacts should be
+            // published to Artifactory.
+            publications('mavenJava', 'distribution')
+            publishArtifacts = true
+            publishPom = true // Publish generated POM files to Artifactory (true by default)
+        }
+    }
+    resolve {
+        repository {
+            repoKey = 'repo'
+            username = "${artifactory_user}"
+            password = "${artifactory_password}"
+            maven = true
+        }
+    }
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+configurations {
+    compile.exclude module: 'spring-boot-starter-tomcat'
+    compile.exclude module: 'tomcat-jdbc'
+    testCompile.exclude group: 'org.slf4j', module: 'log4j-over-slf4j'
+    testCompile.exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+}
+
+configurations.all {
+    // check for updates every build
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
+dependencies {
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-jetty'
+    compile group: 'org.springframework.boot', name: 'spring-boot-devtools'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+    compile group: 'org.springframework.boot', name: 'spring-boot-configuration-processor'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-rest'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-security'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-websocket'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-aop'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf'
+
+    compile group: 'javax.inject', name: 'javax.inject', version: '1'
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.5'
+    compile group: 'org.apache.httpcomponents', name: 'httpclient'
+    compile group: 'org.projectlombok', name: 'lombok-maven', version: '1.16.16.0'
+    compile group: 'org.projectlombok', name: 'lombok', version: '1.16.16'
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-sleuth', version: '1.2.0.RELEASE'
+    runtime group: 'me.moocar', name: 'logback-gelf', version: '0.3'
+    compile group: 'org.thymeleaf', name: 'thymeleaf', version: '3.0.5.RELEASE'
+    compile group: 'org.thymeleaf', name: 'thymeleaf-spring4', version: '3.0.5.RELEASE'
+    compile group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-springsecurity4', version: '3.0.2.RELEASE'
+    compile group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-java8time', version: '3.0.0.RELEASE'
+    compile group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-conditionalcomments', version: '2.1.2.RELEASE'
+    compile group: 'nz.net.ultraq.thymeleaf', name: 'thymeleaf-layout-dialect', version: '2.2.1'
+
+    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+    testCompile group: 'org.springframework.security', name: 'spring-security-test', version: '4.2.2.RELEASE'
+}
+
+//Use this for publishing to local Maven repo
+//gradle publishToMavenLocal
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            artifact (sourcesJar) {
+                classifier = 'sources'
+            }
+
+        }
+        distribution(MavenPublication) {
+            artifact ("${libsDir}/${archivesBaseName}-${version}-full.jar") {
+                classifier = 'full'
+            }
+        }
+    }
+}
+
+rpm {
+    packageName = 'oht-rina-registration-frontend' // Optional, default is project.name
+    baseDir = "${project.buildDir}/build/libs" // Optional, base directory to package, default: project.buildDir
+    prefix = '/uk/doh/oht/rina-registration' // Optional, a path to prefix files when building package, default: root (/)
+    extraOptions = ['--vendor': 'DOH', '--maintainer': 'OH Team'] // Optional, a map containing extra options
+    extraFlags   = ['--rpm-auto-add-directories'] // Optional, a list of additional flags to fpm
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.0'
+}
+
+test {
+    testLogging.showStandardStreams = true
+}
+
+bootRun {
+    addResources = true
+    jvmArgs = ['-Xdebug', '-Xrunjdwp:server=y,transport=dt_socket,address=4000,suspend=y']
+}
+
+springBoot {
+    mainClass = "uk.doh.oht.rina.registration.frontend.OHTRinaRegistrationFrontendApplication"
+}
+
+jar {
+    exclude('**/*.scss')
+}
+
+def renameFile(oldName, newName) {
+    new File(oldName).renameTo(new File(newName))
+}
+
+ext["thymeleaf.version"] = "3.0.5.RELEASE"
+ext["thymeleaf-layout-dialect.version"] = "2.2.1"
+
+bootRepackage.doLast {
+    renameFile("${libsDir}/${archivesBaseName}-${version}.jar", "${libsDir}/${archivesBaseName}-${version}-full.jar");
+    renameFile("${libsDir}/${archivesBaseName}-${version}.jar.original", "${libsDir}/${archivesBaseName}-${version}.jar");
+}
+

@@ -1,0 +1,32 @@
+<!--Generic Website Header HTML-->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<div th:fragment="s1-info-details-request" class="s1info">
+    <table class="table-font-xsmall">
+        <tr class="tRow">
+            <td>
+                <div class="dataHeader" th:text="#{requested.for}">Requested for</div>
+                Harry Howard
+            </td>
+            <td>
+                <div class="dataHeader" th:text="#{date.of.birth}">Date of birth</div>
+                26 February 1975
+            </td>
+            <td>
+                <div class="dataHeader" th:text="#{nino}">National Insurance number</div>
+                QQ 12 34 56 C
+            </td>
+        </tr>
+        <tr class="tRow">
+            <td class="bottomCell">
+                <div class="dataHeader" th:text="#{date.uk.s1.starts}">Date UK S1 starts</div>
+                30 April 2017
+            </td>
+            <td class="bottomCell">
+                <div class="dataHeader" th:text="#{date.registered.by}">Date registered by Spain</div>
+                30 April 2017
+            </td>
+        </tr>
+    </table>
+</div>
+</html>
