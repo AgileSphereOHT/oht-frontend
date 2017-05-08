@@ -10,6 +10,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import uk.doh.oht.rina.registration.frontend.domain.CaseDefinition;
+import uk.doh.oht.rina.registration.frontend.domain.bucs.BucData;
 import uk.doh.oht.rina.registration.frontend.service.RetrieveRinaDataService;
 
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ public class ViewControllerTest {
 
     private final Map<String, Object> mapData = new HashMap<>();
     private final List<CaseDefinition> listData = new ArrayList<>();
+    private final BucData bucData = new BucData();
 
     @Before
     public void setUp() throws Exception {
@@ -60,7 +62,7 @@ public class ViewControllerTest {
 
     @Test
     public void testGetCase() throws Exception {
-        given(retrieveRinaDataService.getCase(anyString())).willReturn(mapData);
+        given(retrieveRinaDataService.getCase(anyString())).willReturn(bucData);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/view/case/" + CASE_ID_VALUE))
                 .andExpect(handler().methodName("getCase"))

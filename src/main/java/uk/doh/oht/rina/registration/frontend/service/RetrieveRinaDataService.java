@@ -11,6 +11,8 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestTemplate;
 import uk.doh.oht.rina.registration.frontend.config.RinaProperties;
 import uk.doh.oht.rina.registration.frontend.domain.CaseDefinition;
+import uk.doh.oht.rina.registration.frontend.domain.OpenCaseSearchResult;
+import uk.doh.oht.rina.registration.frontend.domain.bucs.BucData;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -35,33 +37,39 @@ public class RetrieveRinaDataService {
 
     public List<CaseDefinition> getAllCases() {
         final HttpEntity<String> entity = new HttpEntity<>(null, new HttpHeaders());
-        final ResponseEntity<List<Map<String, Object>>> response = restTemplate.exchange(rinaProperties.buildRootPath() + "get-all-cases", HttpMethod.GET, entity, new ParameterizedTypeReference<List<Map<String, Object>>>() {});
+        final ResponseEntity<List<Map<String, Object>>> response = restTemplate.exchange(
+                rinaProperties.buildRootPath() + "get-all-cases", HttpMethod.GET, entity,
+                new ParameterizedTypeReference<List<Map<String, Object>>>() {});
         List<Map<String, Object>> data = response.getBody();
         if (CollectionUtils.isEmpty(data)) {
             return new ArrayList<>();
         }
-        return data.stream().map(p -> new CaseDefinition((String)p.get("id"), (String)p.get("processDefinitionId"))).collect(Collectors.toList());
+        return data.stream().map(p -> new CaseDefinition(
+                (String)p.get("id"), (String)p.get("processDefinitionId"))).collect(Collectors.toList());
     }
 
-    public Map<String, Object> getCase(final String caseId) {
+    public BucData getCase(final String caseId) {
         final HttpEntity<String> entity = new HttpEntity<>(null, new HttpHeaders());
-        final ResponseEntity<Map<String, Object>> response = restTemplate.exchange(rinaProperties.buildRootPath() + "get-case/" + caseId, HttpMethod.GET, entity, new ParameterizedTypeReference<Map<String, Object>>() {});
+        final ResponseEntity<BucData> response = restTemplate.exchange(
+                rinaProperties.buildRootPath() + "get-case/" + caseId, HttpMethod.GET, entity,
+                new ParameterizedTypeReference<BucData>() {});
         return response.getBody();
     }
 
     public Map<String, Object> getDocument(final String caseId, final String documentId) {
         final HttpEntity<String> entity = new HttpEntity<>(null, new HttpHeaders());
-        final ResponseEntity<Map<String, Object>> response = restTemplate.exchange(rinaProperties.buildRootPath() + "get-document/" + caseId + "/" + documentId, HttpMethod.GET, entity, new ParameterizedTypeReference<Map<String, Object>>() {});
+        final ResponseEntity<Map<String, Object>> response = restTemplate.exchange(
+                rinaProperties.buildRootPath() + "get-document/" + caseId + "/" + documentId, HttpMethod.GET, entity,
+                new ParameterizedTypeReference<Map<String, Object>>() {});
         return response.getBody();
     }
 
-    public List<Map<String, Object>> searchForNextCase() {
+    public List<OpenCaseSearchResult> searchForNextCase() {
         final HttpEntity<String> entity = new HttpEntity<>(null, new HttpHeaders());
-        //search for all open cases with S073 notification
-        final String searchText = "statuses=open";
-        final ResponseEntity<List<Map<String, Object>>> response = restTemplate.exchange(rinaProperties.buildRootPath() + "search-cases?searchText=" + searchText, HttpMethod.GET, entity, new ParameterizedTypeReference<List<Map<String, Object>>>() {});
-        List<Map<String, Object>> data = response.getBody();
-        if (CollectionUtils.isEmpty(data)) {
+        final ResponseEntity<List<OpenCaseSearchResult>> response = restTemplate.exchange(
+                rinaProperties.buildRootPath() + "search-cases?searchText=statuses=open", HttpMethod.GET, entity,
+                new ParameterizedTypeReference<List<OpenCaseSearchResult>>() {});
+        if (CollectionUtils.isEmpty(response.getBody())) {
             return new ArrayList<>();
         }
         return response.getBody();

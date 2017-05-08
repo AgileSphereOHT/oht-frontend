@@ -45,13 +45,13 @@
 
 <script type="text/javascript">
     function retrieveCase(caseId) {
-        var url = '/home/case/' + caseId;
+        var url = '/view/case/' + caseId;
         $("#caseResultsBlock").html("");
         $("#documentResultsBlock").html("");
         $("#caseResultsBlock").load(url);
     }
     function retrieveDocument(caseId, documentId) {
-        var url = '/home/case/' + caseId  + '/' + documentId;
+        var url = '/view/case/' + caseId  + '/' + documentId;
         $("#documentResultsBlock").html("");
         $("#documentResultsBlock").load(url);
     }

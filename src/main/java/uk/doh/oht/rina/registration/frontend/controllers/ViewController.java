@@ -31,7 +31,7 @@ public class ViewController {
     @GetMapping
     public ModelAndView getAllCases() {
         final List<CaseDefinition> allCases = retrieveRinaDataService.getAllCases();
-        ModelAndView modelAndView = new ModelAndView("home");
+        ModelAndView modelAndView = new ModelAndView("view");
         modelAndView.addObject("allCases", allCases);
         return modelAndView;
     }

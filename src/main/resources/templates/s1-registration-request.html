@@ -17,14 +17,16 @@
 
 <main id="content" role="main">
     <div th:replace="fragments/alpha-banner :: alpha-banner">...</div>
-
-    <div class="column-three-thirds">
-        <h1 class="heading-large"><span th:text="#{register.this.s1}">Register this S1</span><span class="heading-secondary"></span></h1>
-        <span th:text="#{deadline.for.registration}">The deadline for this registration is </span>14 May 2017.<br><br>
-        <div th:replace="fragments/s1-info-details-request :: s1-info-details-request">...</div>
-    </div>
-    <br>
-    <form action="/registration/s1-confirm-registration" method="post">
+    <form
+        method="post"
+        th:action="@{/registration/s1-confirm-registration}"
+        th:object="${registration}">
+        <div class="column-three-thirds">
+            <h1 class="heading-large"><span th:text="#{register.this.s1}">Register this S1</span><span class="heading-secondary"></span></h1>
+            <span th:text="#{deadline.for.registration}">The deadline for this registration is </span> <span th:text="*{#dates.format(dueDate, 'dd MMM yyyy')}">14 May 2017</span>.<br><br>
+            <div th:replace="fragments/s1-info-details-request :: s1-info-details-request">...</div>
+        </div>
+        <br>
         <input class="button" type="submit" th:value="#{register.s1}">
     </form>
 </main>

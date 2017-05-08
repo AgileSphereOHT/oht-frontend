@@ -9,12 +9,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import uk.doh.oht.rina.registration.frontend.service.RetrieveRinaDataService;
+import uk.doh.oht.rina.registration.frontend.domain.RegistrationData;
+import uk.doh.oht.rina.registration.frontend.service.SearchService;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.handler;
@@ -30,25 +29,25 @@ public class RequestControllerTest {
 
     private MockMvc mockMvc;
 
-    private final Map<String, Object> mapData = new HashMap<>();
-    private final List< Map<String, Object>> listData = new ArrayList<>();
+    private final List<RegistrationData> listData = new ArrayList<>();
 
 
     @Mock
-    private RetrieveRinaDataService retrieveRinaDataService;
+    private SearchService searchService;
 
     @Before
     public void setUp() throws Exception {
         mockMvc = MockMvcBuilders
-                .standaloneSetup(new RequestController(retrieveRinaDataService))
+                .standaloneSetup(new RequestController(searchService))
                 .build();
-        mapData.put(CASE_ID_VALUE, "{test-data}");
-        listData.add(mapData);
+        RegistrationData registrationData = new RegistrationData();
+        registrationData.setCountry("UK");
+        listData.add(registrationData);
     }
 
     @Test
     public void testGetNextS1Request() throws Exception {
-        given(retrieveRinaDataService.searchForNextCase()).willReturn(listData);
+        given(searchService.searchForNextCase()).willReturn(listData);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/request/s1request"))
                 .andExpect(handler().methodName("getNextS1Request"))
