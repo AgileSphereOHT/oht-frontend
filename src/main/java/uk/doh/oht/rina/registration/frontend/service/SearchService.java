@@ -4,8 +4,8 @@ import org.springframework.stereotype.Service;
 import uk.doh.oht.rina.registration.frontend.domain.OpenCaseSearchResult;
 import uk.doh.oht.rina.registration.frontend.domain.RegistrationData;
 import uk.doh.oht.rina.registration.frontend.domain.SearchData;
-import uk.doh.oht.rina.registration.frontend.domain.UserDetails;
 import uk.doh.oht.rina.registration.frontend.domain.bucs.BucData;
+import uk.doh.oht.rina.registration.frontend.validation.StartDateFormDate;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -62,7 +62,7 @@ public class SearchService {
             if (registrationData.getCaseId().equals(openCaseSearchResult.getTraits().getCaseId())) {
                 registrationData.setDueDate(openCaseSearchResult.getDueDate());
                 BucData bucData = retrieveRinaDataService.getCase(registrationData.getCaseId());
-                registrationData.setS073StartDate(bucData.getStartDate());
+                registrationData.setS073StartDate(new StartDateFormDate(bucData.getStartDate()));
                 break;
             }
         }

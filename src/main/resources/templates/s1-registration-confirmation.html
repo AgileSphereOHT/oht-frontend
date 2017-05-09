@@ -15,20 +15,20 @@
 
 <div th:replace="fragments/oht_header :: header">...</div>
 
-<main id="content" role="main">
+<main id="content" role="main" th:object="${details}">
     <div th:replace="fragments/alpha-banner :: alpha-banner">...</div>
 
     <div class="govuk-box-highlight">
-        <div class="bold-large"><span th:text="#{s1.registered.for}">S1 form registered for </span>&nbsp;Harry Howard</div>
+        <div class="bold-large"><span th:text="#{s1.registered.for}">S1 form registered for </span>&nbsp;<span th:text="*{userFullName}">Harry Howard</span></div>
     </div>
 
     <div class="column-three-thirds">
         <h1 class="heading-large"><span th:text="#{your.cases}">Your cases</span><span class="heading-secondary"></span></h1>
         <p th:text="#{today.worked.on}">Today, you have worked on:</p>
         <ul class="list list-bullet">
-            <li>7 requests for an S1</li>
-            <li>4 registrations</li>
-            <li>5 cancellations</li>
+            <li><span th:text="*{numberRequests}">7</span> <span th:text="#{your.requests}">requests for an S1</span></li>
+            <li><span th:text="*{numberRegistrations}">4</span> <span th:text="#{your.registrations}">registrations</span></li>
+            <li><span th:text="*{numberCancellations}">5</span> <span th:text="#{your.cancellations}">cancellations</span></li>
         </ul>
 
     </div>

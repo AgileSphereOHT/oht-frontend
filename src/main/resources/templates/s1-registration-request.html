@@ -23,6 +23,13 @@
         th:object="${registration}">
         <div class="column-three-thirds">
             <h1 class="heading-large"><span th:text="#{register.this.s1}">Register this S1</span><span class="heading-secondary"></span></h1>
+
+            <div class="error-summary validation-summary" th:if="${#fields.hasErrors('*')}">
+                <p th:text="#{errorSummary}" data-bsaid="errorSummary">
+                    Errors exist on this page, fix them.
+                </p>
+            </div>
+
             <span th:text="#{deadline.for.registration}">The deadline for this registration is </span> <span th:text="*{#dates.format(dueDate, 'dd MMM yyyy')}">14 May 2017</span>.<br><br>
             <div th:replace="fragments/s1-info-details-request :: s1-info-details-request">...</div>
         </div>

@@ -1,8 +1,10 @@
 package uk.doh.oht.rina.registration.frontend.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -11,7 +13,8 @@ import java.util.List;
  */
 @Data
 @AllArgsConstructor
-public class UserDetails {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class UserDetails implements Serializable {
     private String nino;
     private String title;
     private String firstName;

@@ -5,26 +5,84 @@
     <table class="table-font-xsmall">
         <tr class="tRow">
             <td>
-                <div class="dataHeader" th:text="#{requested.for}">Requested for</div>
+                <div class="form-label-bold" th:text="#{requested.for}">Requested for</div>
                 <span th:text="*{userDetails.firstName + ' ' + userDetails.lastName}">Harry Howard</span>
             </td>
             <td>
-                <div class="dataHeader" th:text="#{date.of.birth}">Date of birth</div>
+                <div class="form-label-bold" th:text="#{date.of.birth}">Date of birth</div>
                 <span th:text="*{#dates.format(userDetails.dateOfBirth, 'dd MMMMMMM yyyy')}">26 February 1975</span>
             </td>
             <td>
-                <div class="dataHeader" th:text="#{nino}">National Insurance number</div>
+                <div class="form-label-bold" th:text="#{nino}">National Insurance number</div>
                 <span th:text="*{userDetails.nino}">QQ 12 34 56 C</span>
             </td>
         </tr>
         <tr class="tRow">
             <td class="bottomCell">
-                <div class="dataHeader" th:text="#{date.uk.s1.starts}">Date UK S1 starts</div>
-                <span th:text="*{#dates.format(startDate, 'dd MMMMMMM yyyy')}">30 April 2017</span>
+                <div class="form-group">
+                    <div class="error-layer" th:classappend="${#fields.hasErrors('startDate')} ? error">
+                        <fieldset>
+                            <legend class="form-label-bold" th:text="#{date.uk.s1.starts}">Date UK S1 starts</legend>
+
+                            <div class="form-date">
+                                <!--<p class="form-hint" th:text="#{dateExample}"></p>-->
+
+                                <div class="error-message" role="alert"
+                                     th:if="${#fields.hasErrors('startDate')}"
+                                     th:errors="*{startDate}" data-bsaid="startDate-enterdetails-error" >Some error message
+                                </div>
+
+                                <div class="form-group form-group-day">
+                                    <label for="start-day" th:text="#{startDay}"></label>
+                                    <input class="form-control" id="start-day" th:field="*{startDate.days}" name="start-day" type="text" maxlength="2" />
+                                </div>
+
+                                <div class="form-group form-group-month">
+                                    <label for="start-month" th:text="#{startMonth}"></label>
+                                    <input class="form-control" id="start-month" th:field="*{startDate.month}" name="start-month" type="text" maxlength="2" />
+                                </div>
+
+                                <div class="form-group form-group-year">
+                                    <label for="start-year" th:text="#{startYear}"></label>
+                                    <input class="form-control" id="start-year" th:field="*{startDate.year}" name="start-year" type="text" maxlength="4" />
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
             </td>
             <td class="bottomCell">
-                <div class="dataHeader" th:text="|#{date.registered.by} *{country}|">Date registered by Spain</div>
-                <span th:text="*{#dates.format(s073StartDate, 'dd MMMMMMM yyyy')}">30 April 2017</span>
+                <div class="form-group">
+                    <div class="error-layer" th:classappend="${#fields.hasErrors('s073StartDate')} ? error">
+                        <fieldset>
+                            <legend class="form-label-bold" th:text="|#{date.registered.by} *{country}|">Date registered by Spain</legend>
+
+                            <div class="form-date">
+                                <!--<p class="form-hint" th:text="#{dateExample}"></p>-->
+
+                                <div class="error-message" role="alert"
+                                     th:if="${#fields.hasErrors('s073StartDate')}"
+                                     th:errors="*{s073StartDate}" data-bsaid="s073StartDate-enterdetails-error" >Some error message
+                                </div>
+
+                                <div class="form-group form-group-day">
+                                    <label for="s073-day" th:text="#{s073Day}"></label>
+                                    <input class="form-control" id="s073-day" th:field="*{s073StartDate.days}" name="s073-day" type="text" maxlength="2" />
+                                </div>
+
+                                <div class="form-group form-group-month">
+                                    <label for="s073-month" th:text="#{s073Month}"></label>
+                                    <input class="form-control" id="s073-month" th:field="*{s073StartDate.month}" name="s073-month" type="text" maxlength="2" />
+                                </div>
+
+                                <div class="form-group form-group-year">
+                                    <label for="s073-year" th:text="#{s073Year}"></label>
+                                    <input class="form-control" id="s073-year" th:field="*{s073StartDate.year}" name="s073-year" type="text" maxlength="4" />
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
             </td>
         </tr>
     </table>

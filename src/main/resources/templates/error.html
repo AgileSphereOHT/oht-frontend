@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 9]><html class="lte-ie8" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--><html lang="en"><!--<![endif]-->
+<head>
+    <meta charset="utf-8" />
+    <title th:text="#{error.title}"></title>
+    <object th:replace="fragments/global_includes :: global_includes" th:remove="tag">...</object>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+</head>
+
+<body class="">
+<script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
+
+<div th:replace="fragments/header :: header">...</div>
+
+<main id="content" role="main">
+
+    <div th:replace="fragments/alpha-banner :: alpha-banner">...</div>
+
+    <div class="grid-row">
+        <div class="column-two-thirds">
+            <h1 class="heading-xlarge" th:text="#{error}">An error has occurred.</h1>
+        </div>
+    </div>
+</main>
+
+<div th:replace="fragments/footer :: footer">...</div>
+
+</body>
+</html>

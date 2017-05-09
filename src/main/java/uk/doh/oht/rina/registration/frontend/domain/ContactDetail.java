@@ -1,14 +1,18 @@
 package uk.doh.oht.rina.registration.frontend.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+
+import java.io.Serializable;
 
 /**
  * Created by peterwhitehead on 05/05/2017.
  */
 @Data
 @AllArgsConstructor
-public class ContactDetail {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class ContactDetail implements Serializable {
     private String type;
     private String details;
 }

@@ -43,4 +43,11 @@ public class RetrieveRegistrationsDataService {
         }
         return response.getBody();
     }
+
+    public Boolean updateRegistrationData(final RegistrationData registrationData) {
+        final HttpEntity<RegistrationData> entity = new HttpEntity<>(registrationData, new HttpHeaders());
+        final ResponseEntity<Boolean> response = restTemplate.exchange(
+                dataProperties.buildRootPath() + "update-registration", HttpMethod.POST, entity, new ParameterizedTypeReference<Boolean>() {});
+        return response.getBody();
+    }
 }

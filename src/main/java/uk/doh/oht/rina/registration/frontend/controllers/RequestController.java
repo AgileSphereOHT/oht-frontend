@@ -11,6 +11,7 @@ import uk.doh.oht.rina.registration.frontend.domain.RegistrationData;
 import uk.doh.oht.rina.registration.frontend.service.SearchService;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -28,11 +29,14 @@ public class RequestController {
     }
 
     @GetMapping(value = "s1request", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public String getNextS1Request(final Model model) {
+    public String getNextS1Request(final Model model, final HttpSession httpSession) {
         log.info("Enter getNextS1Request");
         //got to rina and get latest S073
         List<RegistrationData> registrationData = searchService.searchForNextCase();
-        model.addAttribute("registration", CollectionUtils.isEmpty(registrationData) ? null : registrationData.get(0));
+        if (!CollectionUtils.isEmpty(registrationData)) {
+            httpSession.setAttribute("S1Request", registrationData.get(0));
+            model.addAttribute("registration", registrationData.get(0));
+        }
         log.info("Exit getNextS1Request");
         return "s1-registration-request";
     }

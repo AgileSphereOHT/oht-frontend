@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import uk.doh.oht.rina.registration.frontend.config.RinaProperties;
 import uk.doh.oht.rina.registration.frontend.domain.CaseDefinition;
+import uk.doh.oht.rina.registration.frontend.domain.bucs.BucData;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,11 +43,14 @@ public class RetrieveRinaDataServiceTest {
     private RinaProperties rinaProperties;
 
     private final Map<String, Object> mapData = new HashMap<>();
+    private final BucData bucData = new BucData();
     private final List<Map<String, Object>> listData = new ArrayList<>();
 
     @Before
     public void setUp() throws Exception {
         retrieveRinaDataService = new RetrieveRinaDataService(restTemplate, rinaProperties);
+        bucData.setId(CASE_ID_VALUE);
+        bucData.setProcessDefinitionName("Test");
         mapData.put("id", CASE_ID_VALUE);
         mapData.put("processDefinitionId", DOCUMENT_ID_VALUE);
         listData.add(mapData);
@@ -64,12 +68,11 @@ public class RetrieveRinaDataServiceTest {
 
     @Test
     public void testGetCase() throws Exception {
-        ResponseEntity<Map<String, Object>> responseEntity = new ResponseEntity(mapData, HttpStatus.OK);
+        ResponseEntity<Map<String, Object>> responseEntity = new ResponseEntity(bucData, HttpStatus.OK);
         given(restTemplate.exchange(anyString(), Mockito.<HttpMethod> any(), Mockito.<HttpEntity<String>> any(), Matchers.<ParameterizedTypeReference<Map<String, Object>>> any())).willReturn(responseEntity);
-        Map<String, Object> data = retrieveRinaDataService.getCase(CASE_ID_VALUE);
-        assertThat(data.size(), is(2));
-        assertThat(data.get("id"), is(CASE_ID_VALUE));
-        assertThat(data.get("processDefinitionId"), is(DOCUMENT_ID_VALUE));
+        BucData data = retrieveRinaDataService.getCase(CASE_ID_VALUE);
+        assertThat(data.getId(), is(CASE_ID_VALUE));
+        assertThat(data.getProcessDefinitionName(), is("Test"));
     }
 
     @Test
