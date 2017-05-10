@@ -29,7 +29,6 @@ public class RequestControllerTest {
 
     private final List<RegistrationData> listData = new ArrayList<>();
 
-
     @Mock
     private SearchService searchService;
 
