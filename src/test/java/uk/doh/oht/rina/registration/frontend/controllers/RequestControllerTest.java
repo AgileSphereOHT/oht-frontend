@@ -25,8 +25,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 public class RequestControllerTest {
-    private final static String CASE_ID_VALUE = "1";
-
     private MockMvc mockMvc;
 
     private final List<RegistrationData> listData = new ArrayList<>();
