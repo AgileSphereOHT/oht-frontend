@@ -1,6 +1,5 @@
 package uk.doh.oht.rina.registration.frontend.validation;
 
-import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;

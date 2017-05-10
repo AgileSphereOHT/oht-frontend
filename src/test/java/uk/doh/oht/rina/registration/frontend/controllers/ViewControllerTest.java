@@ -47,6 +47,7 @@ public class ViewControllerTest {
                 .build();
         mapData.put(CASE_ID_VALUE, "{test-data}");
         listData.add(new CaseDefinition(CASE_ID_VALUE, DOCUMENT_ID_VALUE));
+        bucData.setProcessDefinitionName("Test");
     }
 
     @Test
@@ -68,7 +69,7 @@ public class ViewControllerTest {
                 .andExpect(handler().methodName("getCase"))
                 .andExpect(handler().handlerType(ViewController.class))
                 .andExpect(status().is2xxSuccessful())
-                .andExpect(model().attribute("case", mapData));
+                .andExpect(model().attribute("case", bucData));
     }
 
     @Test
