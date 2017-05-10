@@ -27,5 +27,4 @@ public class UserDetails implements Serializable {
     private String gender;
     private String nationality;
     private List<ContactDetail> contactDetailList;
-
 }
