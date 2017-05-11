@@ -17,8 +17,6 @@ import uk.doh.oht.rina.registration.frontend.domain.RegistrationData;
 import uk.doh.oht.rina.registration.frontend.domain.UserDetails;
 import uk.doh.oht.rina.registration.frontend.service.RetrieveRegistrationsDataService;
 
-import java.security.Principal;
-
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.handler;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
