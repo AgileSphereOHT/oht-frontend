@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
-public class RequestControllerTest {
+public class RegistrationRequestControllerTest {
     private MockMvc mockMvc;
 
     private final List<RegistrationData> listData = new ArrayList<>();
@@ -35,7 +35,7 @@ public class RequestControllerTest {
     @Before
     public void setUp() throws Exception {
         mockMvc = MockMvcBuilders
-                .standaloneSetup(new RequestController(searchService))
+                .standaloneSetup(new RegistrationRequestController(searchService))
                 .build();
         RegistrationData registrationData = new RegistrationData();
         registrationData.setCountry("UK");
@@ -46,9 +46,9 @@ public class RequestControllerTest {
     public void testGetNextS1Request() throws Exception {
         given(searchService.searchForNextCase()).willReturn(listData);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/request/s1request"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/registration/s1-registration-request"))
                 .andExpect(handler().methodName("getNextS1Request"))
-                .andExpect(handler().handlerType(RequestController.class))
+                .andExpect(handler().handlerType(RegistrationRequestController.class))
                 .andExpect(status().is2xxSuccessful());
     }
 }

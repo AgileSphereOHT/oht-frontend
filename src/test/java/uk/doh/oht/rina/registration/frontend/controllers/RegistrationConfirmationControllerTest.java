@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
-public class RegistrationControllerTest {
+public class RegistrationConfirmationControllerTest {
     private MockMvc mockMvc;
 
     @Mock
@@ -35,18 +35,18 @@ public class RegistrationControllerTest {
     @Before
     public void setUp() throws Exception {
         mockMvc = MockMvcBuilders
-                .standaloneSetup(new RegistrationController(retrieveRegistrationsDataService))
+                .standaloneSetup(new RegistrationConfirmationController(retrieveRegistrationsDataService))
                 .build();
         oldRegistrationData.setUserDetails(new UserDetails());
     }
 
     @Test
     public void testConfirmRegistration() throws Exception {
-        session.setAttribute("S1Request", oldRegistrationData);
-        mockMvc.perform(MockMvcRequestBuilders.post("/registration/s1-confirm-registration")
+        session.setAttribute("S1RegistrationRequest", oldRegistrationData);
+        mockMvc.perform(MockMvcRequestBuilders.post("/registration/confirm-s1-registration")
                 .session(session))
                 .andExpect(handler().methodName("confirmRegistration"))
-                .andExpect(handler().handlerType(RegistrationController.class))
+                .andExpect(handler().handlerType(RegistrationConfirmationController.class))
                 .andExpect(status().is2xxSuccessful());
     }
 }

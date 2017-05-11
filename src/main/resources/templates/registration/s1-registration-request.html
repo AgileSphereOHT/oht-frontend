@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <title th:text="#{s1-registration-request.title}">Registration Request</title>
+    <title th:text="#{s1.registration.request.title}">Registration Request</title>
 
     <div th:if="false">
         <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
@@ -19,13 +19,13 @@
     <div th:replace="fragments/alpha-banner :: alpha-banner">...</div>
     <form
         method="post"
-        th:action="@{/registration/s1-confirm-registration}"
+        th:action="@{/registration/confirm-s1-registration}"
         th:object="${registration}">
         <div class="column-three-thirds">
             <h1 class="heading-large"><span th:text="#{register.this.s1}">Register this S1</span><span class="heading-secondary"></span></h1>
 
             <div class="error-summary validation-summary" th:if="${#fields.hasErrors('*')}">
-                <p th:text="#{errorSummary}" data-bsaid="errorSummary">
+                <p th:text="#{error.summary}" data-bsaid="errorSummary">
                     Errors exist on this page, fix them.
                 </p>
             </div>
@@ -38,6 +38,7 @@
     </form>
     <br/>
     <p>
+        <a href="#" th:text="#{edit.this.registration}">Edit this registration</a><br><br>
         <a href="#" th:text="#{dispute.this.registration}">Dispute this registration</a>
     </p>
 </main>

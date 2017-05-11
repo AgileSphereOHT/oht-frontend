@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title th:text="#{s1.registration.complete.title}">S1 Request Created</title>
+
+    <div th:if="false">
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script src="http://blackpeppersoftware.github.io/thymeleaf-fragment.js/thymeleaf-fragment.js" defer="defer"></script>
+        <!--UX stuff here-->
+    </div>
+
+    <object th:replace="fragments/global_includes :: global_includes" th:remove="tag">...</object>
+</head>
+<body>
+
+<div th:replace="fragments/oht_header :: header">...</div>
+
+<main id="content" role="main" th:object="${details}">
+    <div th:replace="fragments/alpha-banner :: alpha-banner">...</div>
+    <div class="govuk-box-highlight">
+        <div class="bold-large">S1 form created for Harry Howard</div>
+    </div>
+
+    <span>2 copies of this S1 and a cover letter will be printed for you.</span>
+    <div class="column-three-thirds">
+        <h1 class="heading-large">Your cases<span class="heading-secondary"></span></h1>
+        <p>Today, you have worked on:</p>
+        <ul class="list list-bullet">
+            <li>7 requests for an S1</li>
+            <li>3 registrations</li>
+            <li>5 cancellations</li>
+        </ul>
+        <br>
+    </div>
+
+    <form action="../registration/customerSearchFound.html">
+        <div class="form-group">
+            <input class="button" type="submit" value="Get another case">
+        </div>
+    </form>
+
+    <p><a href="#">Add a manual request</a></p>
+    <p><a href="/registration/customerSearchNoResults.html">Add a manual registration</a></p>
+
+</main>
+
+<div th:replace="fragments/footer :: footer">...</div>
+
+</body>
+</html>

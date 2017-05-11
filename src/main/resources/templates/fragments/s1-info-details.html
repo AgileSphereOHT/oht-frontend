@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<div th:fragment="s1-info-details" class="s1info">
+    <article>
+    <table class="table table-font-xsmall">
+        <tbody>
+            <tr class="tRow">
+                <td>
+                    <div class="dataHeader" th:text="#{s1.request.by}">Requested by</div><span th:text="*{requestedBy}">Customer</span>
+                </td>
+                <td colspan="2">
+                    <div class="dataHeader" th:text="#{s1.request.issue.type}">Issue type</div><span th:text="*{issueType}">Main</span>
+                </td>
+            </tr>
+            <tr class="tRow">
+                <td>
+                    <div class="dataHeader" th:text="#{s1.request.for}">Requested for</div><span th:text="*{firstName + ' ' + lastName}">Harry Howard</span>
+                </td>
+                <td>
+                    <div class="dataHeader" th:text="#{s1.request.dob}">Date of birth</div><span th:text="*{#dates.format(dateOfBirth, 'dd MMMMMMM yyyy')}">26 February 1952</span>
+                </td>
+                <td>
+                    <div class="dataHeader" th:text="#{s1.request.nino}">National Insurance number</div><span th:text="*{nino}">QQ 12 34 56 C</span>
+                </td>
+            </tr>
+            <tr class="tRow">
+                <td>
+                    <div class="dataHeader"><span th:text="#{s1.request.moving.to}">Moving to</span> <span th:text="*{movingCountry}">Spain</span></div><span th:text="*{#dates.format(movingDate, 'dd MMMMMMM yyyy')}">30 April 2017</span>
+                </td>
+                <td>
+                    <div class="dataHeader"><span th:text="#{s1.request.address.in}">Address in</span> <span th:text="*{movingCountry}">Spain</span></div><span th:utext="*{displayMovingAddress}">98 Floral Street<br>>378SD Madrid<br>Spain</span><br>
+                </td>
+                <td>
+                    <div class="dataHeader" th:text="#{s1.request.current.address}">Current address</div><span th:utext="*{displayCurrentAddress}">40 Imaginary Street<br>Invisible Town<br>London<br>XX2 34X<br>United Kingdom</span>
+                </td>
+            </tr>
+            <tr class="tRow">
+                <td>
+                    <div class="dataHeader" th:text="#{s1.request.telephone.number}">Telephone number</div><span th:text="*{telephoneNumber}">01234 567 894</span>
+                </td>
+                <td colspan="2">
+                    <div class="dataHeader" th:text="#{s1.request.email}">Email</div><span th:text="*{emailAddress}">harry.howard@test.com</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="dataHeader" th:text="#{s1.request.status}">Status</div><span th:text="*{occupationType}">Pensioner</span> <span th:text="*{country}">UK</span>
+                </td>
+                <td>
+                    <div class="dataHeader" th:text="#{s1.request.benefit.type}">Benefit type</div><span th:text="*{benefitType}">Retirement</span>
+                </td>
+                <td>
+                    <div class="dataHeader" th:text="#{s1.request.date.entitlement}">Date of entitlement</div><span th:text="*{#dates.format(entitlementDate, 'dd MMMMMMM yyyy')}">13 September 2015</span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" class="bottomCell"><div><br><span th:text="*{firstName + ' ' + lastName}">Harry Howard</span> <span th:text="#{s1.request.foreign.pension}">doesn't have a foreign pension.</span></div></td>
+            </tr>
+        </tbody>
+    </table>
+    </article>
+</div>
+</html>

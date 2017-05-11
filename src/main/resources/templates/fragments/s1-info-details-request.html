@@ -1,4 +1,3 @@
-<!--Generic Website Header HTML-->
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <div th:fragment="s1-info-details-request" class="s1info">
@@ -25,7 +24,7 @@
                             <legend class="form-label-bold" th:text="#{date.uk.s1.starts}">Date UK S1 starts</legend>
 
                             <div class="form-date">
-                                <!--<p class="form-hint" th:text="#{dateExample}"></p>-->
+                                <!--<p class="form-hint" th:text="#{date.example}"></p>-->
 
                                 <div class="error-message" role="alert"
                                      th:if="${#fields.hasErrors('startDate')}"
@@ -33,17 +32,17 @@
                                 </div>
 
                                 <div class="form-group form-group-day">
-                                    <label for="start-day" th:text="#{startDay}"></label>
+                                    <label for="start-day" th:text="#{start.day}"></label>
                                     <input class="form-control" id="start-day" th:field="*{startDate.days}" name="start-day" type="text" maxlength="2" />
                                 </div>
 
                                 <div class="form-group form-group-month">
-                                    <label for="start-month" th:text="#{startMonth}"></label>
+                                    <label for="start-month" th:text="#{start.month}"></label>
                                     <input class="form-control" id="start-month" th:field="*{startDate.month}" name="start-month" type="text" maxlength="2" />
                                 </div>
 
                                 <div class="form-group form-group-year">
-                                    <label for="start-year" th:text="#{startYear}"></label>
+                                    <label for="start-year" th:text="#{start.year}"></label>
                                     <input class="form-control" id="start-year" th:field="*{startDate.year}" name="start-year" type="text" maxlength="4" />
                                 </div>
                             </div>
@@ -58,7 +57,7 @@
                             <legend class="form-label-bold" th:text="|#{date.registered.by} *{country}|">Date registered by Spain</legend>
 
                             <div class="form-date">
-                                <!--<p class="form-hint" th:text="#{dateExample}"></p>-->
+                                <!--<p class="form-hint" th:text="#{date.example}"></p>-->
 
                                 <div class="error-message" role="alert"
                                      th:if="${#fields.hasErrors('s073StartDate')}"
@@ -66,17 +65,17 @@
                                 </div>
 
                                 <div class="form-group form-group-day">
-                                    <label for="s073-day" th:text="#{s073Day}"></label>
+                                    <label for="s073-day" th:text="#{s073.day}"></label>
                                     <input class="form-control" id="s073-day" th:field="*{s073StartDate.days}" name="s073-day" type="text" maxlength="2" />
                                 </div>
 
                                 <div class="form-group form-group-month">
-                                    <label for="s073-month" th:text="#{s073Month}"></label>
+                                    <label for="s073-month" th:text="#{s073.month}"></label>
                                     <input class="form-control" id="s073-month" th:field="*{s073StartDate.month}" name="s073-month" type="text" maxlength="2" />
                                 </div>
 
                                 <div class="form-group form-group-year">
-                                    <label for="s073-year" th:text="#{s073Year}"></label>
+                                    <label for="s073-year" th:text="#{s073.year}"></label>
                                     <input class="form-control" id="s073-year" th:field="*{s073StartDate.year}" name="s073-year" type="text" maxlength="4" />
                                 </div>
                             </div>

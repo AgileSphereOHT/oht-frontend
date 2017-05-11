@@ -19,25 +19,25 @@ import java.util.List;
  */
 @Controller
 @Slf4j
-@RequestMapping("/request")
-public class RequestController {
+@RequestMapping("/registration")
+public class RegistrationRequestController {
     private final SearchService searchService;
 
     @Inject
-    public RequestController(final SearchService searchService) {
+    public RegistrationRequestController(final SearchService searchService) {
         this.searchService = searchService;
     }
 
-    @GetMapping(value = "s1request", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value = "s1-registration-request", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String getNextS1Request(final Model model, final HttpSession httpSession) {
         log.info("Enter getNextS1Request");
         //got to rina and get latest S073
         List<RegistrationData> registrationData = searchService.searchForNextCase();
         if (!CollectionUtils.isEmpty(registrationData)) {
-            httpSession.setAttribute("S1Request", registrationData.get(0));
+            httpSession.setAttribute("S1RegistrationRequest", registrationData.get(0));
             model.addAttribute("registration", registrationData.get(0));
         }
         log.info("Exit getNextS1Request");
-        return "s1-registration-request";
+        return "/registration/s1-registration-request";
     }
 }

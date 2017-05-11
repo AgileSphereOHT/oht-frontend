@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title th:text="#{s1.request.title}">Request For S1</title>
+
+    <div th:if="false">
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script src="http://blackpeppersoftware.github.io/thymeleaf-fragment.js/thymeleaf-fragment.js" defer="defer"></script>
+        <!--UX stuff here-->
+    </div>
+
+    <object th:replace="fragments/global_includes :: global_includes" th:remove="tag">...</object>
+</head>
+<body>
+
+<div th:replace="fragments/oht_header :: header">...</div>
+
+<main id="content" role="main">
+    <div th:replace="fragments/alpha-banner :: alpha-banner">...</div>
+
+    <form
+            method="post"
+            th:action="@{/request/create-s1-request}"
+            th:object="${s1request}">
+        <div class="column-three-thirds">
+            <h1 class="heading-large"><span th:text="#{request.for.s1.form}">Request for an S1 form</span><span class="heading-secondary"></span></h1>
+            <div class="error-summary validation-summary" th:if="${#fields.hasErrors('*')}">
+                <p th:text="#{error.summary}" data-bsaid="errorSummary">
+                    Errors exist on this page, fix them.
+                </p>
+            </div>
+            <p>
+                <span th:text="#{s1.request.deadline}">The deadline for this request is</span> <span>4 May 2017</span>.
+            </p>
+            <div th:replace="fragments/s1-info-details :: s1-info-details">...</div>
+            <br>
+            <p th:text="#{s1.if.approve.request}">If you approve this request, when do you want the S1 to start from?</p>
+            <fieldset>
+                <legend>
+                    <span class="form-label-bold"></span>
+                    <span class="form-hint" id="start-hint" th:text="#{date.example}">For example, 31 3 2017</span>
+                </legend>
+                <div class="form-date">
+                    <div class="form-group form-group-day">
+                        <label class="form-label" for="start-day" th:text="#{s1.request.day}">Day</label>
+                        <input class="form-control" id="start-day" name="start-day" type="number" pattern="[0-9]*" min="0" max="31" aria-describedby="example-dob-hint-3">
+                    </div>
+                    <div class="form-group form-group-month">
+                        <label class="form-label" for="start-month" th:text="#{s1.request.month}">Month</label>
+                        <input class="form-control" id="start-month" name="start-month" type="number" pattern="[0-9]*" min="0" max="12">
+                    </div>
+                    <div class="form-group form-group-year">
+                        <label class="form-label" for="start-year" th:text="#{s1.request.year}">Year</label>
+                        <input class="form-control" id="start-year" name="start-year" type="number" pattern="[0-9]*" min="0" max="2055">
+                    </div>
+                </div>
+            </fieldset>
+            <br>
+            <p><input class="button" type="submit" th:value="#{approve.and.create.s1}"></p>
+            <p><a href="#" th:text="#{delay.s1.request}">Delay this request until you have more information</a></p>
+            <p><a href="#" th:text="#{reject.s1.request}">Reject this request</a></p>
+        </div>
+    </form>
+</main>
+
+<div th:replace="fragments/footer :: footer">...</div>
+
+</body>
+</html>

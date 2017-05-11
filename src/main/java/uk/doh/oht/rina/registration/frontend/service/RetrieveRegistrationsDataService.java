@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestTemplate;
 import uk.doh.oht.rina.registration.frontend.config.DataProperties;
+import uk.doh.oht.rina.registration.frontend.domain.PendingRegistrationData;
 import uk.doh.oht.rina.registration.frontend.domain.RegistrationData;
 import uk.doh.oht.rina.registration.frontend.domain.SearchData;
 
@@ -38,6 +39,17 @@ public class RetrieveRegistrationsDataService {
         final ResponseEntity<List<RegistrationData>> response = restTemplate.exchange(
                 dataProperties.buildRootPath() + "retrieve-registrations", HttpMethod.POST, entity, new ParameterizedTypeReference<List<RegistrationData>>() {});
         List<RegistrationData> data = response.getBody();
+        if (CollectionUtils.isEmpty(data)) {
+            return new ArrayList<>();
+        }
+        return response.getBody();
+    }
+
+    public List<PendingRegistrationData> getPendingS1Requests() {
+        final HttpEntity<String> entity = new HttpEntity<>(null, new HttpHeaders());
+        final ResponseEntity<List<PendingRegistrationData>> response = restTemplate.exchange(
+                dataProperties.buildRootPath() + "retrieve-pending-registrations", HttpMethod.POST, entity, new ParameterizedTypeReference<List<PendingRegistrationData>>() {});
+        List<PendingRegistrationData> data = response.getBody();
         if (CollectionUtils.isEmpty(data)) {
             return new ArrayList<>();
         }
