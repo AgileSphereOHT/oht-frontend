@@ -47,6 +47,6 @@ public class RegistrationConfirmationControllerTest {
                 .session(session))
                 .andExpect(handler().methodName("confirmRegistration"))
                 .andExpect(handler().handlerType(RegistrationConfirmationController.class))
-                .andExpect(status().is2xxSuccessful());
+                .andExpect(status().is3xxRedirection());
     }
 }

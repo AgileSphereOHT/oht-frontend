@@ -9,6 +9,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.servlet.view.AbstractUrlBasedView;
+import org.springframework.web.servlet.view.InternalResourceView;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import uk.doh.oht.rina.registration.frontend.domain.RegistrationData;
 import uk.doh.oht.rina.registration.frontend.service.SearchService;
 
@@ -36,6 +39,7 @@ public class RegistrationRequestControllerTest {
     public void setUp() throws Exception {
         mockMvc = MockMvcBuilders
                 .standaloneSetup(new RegistrationRequestController(searchService))
+                .setViewResolvers(new StandaloneMvcTestViewResolver())
                 .build();
         RegistrationData registrationData = new RegistrationData();
         registrationData.setCountry("UK");
@@ -50,5 +54,18 @@ public class RegistrationRequestControllerTest {
                 .andExpect(handler().methodName("getNextS1Request"))
                 .andExpect(handler().handlerType(RegistrationRequestController.class))
                 .andExpect(status().is2xxSuccessful());
+    }
+
+    class StandaloneMvcTestViewResolver extends InternalResourceViewResolver {
+        public StandaloneMvcTestViewResolver() {
+            super();
+        }
+        @Override
+        protected AbstractUrlBasedView buildView(final String viewName) throws Exception {
+            final InternalResourceView view = (InternalResourceView) super.buildView(viewName);
+            // prevent checking for circular view paths
+            view.setPreventDispatchLoop(false);
+            return view;
+        }
     }
 }

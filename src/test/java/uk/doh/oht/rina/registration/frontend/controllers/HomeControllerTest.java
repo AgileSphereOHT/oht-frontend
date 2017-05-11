@@ -40,11 +40,9 @@ public class HomeControllerTest {
     }
 
     class StandaloneMvcTestViewResolver extends InternalResourceViewResolver {
-
         public StandaloneMvcTestViewResolver() {
             super();
         }
-
         @Override
         protected AbstractUrlBasedView buildView(final String viewName) throws Exception {
             final InternalResourceView view = (InternalResourceView) super.buildView(viewName);
