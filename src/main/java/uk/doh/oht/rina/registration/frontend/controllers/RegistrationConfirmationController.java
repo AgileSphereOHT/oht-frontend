@@ -45,7 +45,7 @@ public class RegistrationConfirmationController {
     public String confirmRegistration(final RegistrationData registrationData, final Model model, final HttpSession httpSession) {
         log.info("Enter confirmRegistration");
 
-        final RegistrationData oldRegistrationData = (RegistrationData)httpSession.getAttribute("S1RegistrationRequest");
+        final RegistrationData oldRegistrationData = (RegistrationData)httpSession.getAttribute(S1_REGISTRATION_REQUEST);
         oldRegistrationData.setS073StartDate(registrationData.getS073StartDate());
         oldRegistrationData.setStartDate(registrationData.getStartDate());
         retrieveRegistrationsDataService.updateRegistrationData(oldRegistrationData);
