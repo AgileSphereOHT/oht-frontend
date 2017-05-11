@@ -6,6 +6,9 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockHttpSession;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -14,6 +17,9 @@ import uk.doh.oht.rina.registration.frontend.domain.RegistrationData;
 import uk.doh.oht.rina.registration.frontend.domain.UserDetails;
 import uk.doh.oht.rina.registration.frontend.service.RetrieveRegistrationsDataService;
 
+import java.security.Principal;
+
+import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.handler;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -27,6 +33,12 @@ public class RegistrationConfirmationControllerTest {
 
     @Mock
     private RetrieveRegistrationsDataService retrieveRegistrationsDataService;
+    @Mock
+    private SecurityContext securityContextMocked;
+    @Mock
+    private Authentication authenticationMocked;
+    @Mock
+    private org.springframework.security.core.userdetails.UserDetails principal;
 
     private final MockHttpSession session = new MockHttpSession();
 
@@ -38,6 +50,9 @@ public class RegistrationConfirmationControllerTest {
                 .standaloneSetup(new RegistrationConfirmationController(retrieveRegistrationsDataService))
                 .build();
         oldRegistrationData.setUserDetails(new UserDetails());
+        given(authenticationMocked.getPrincipal()).willReturn(principal);
+        given(securityContextMocked.getAuthentication()).willReturn(authenticationMocked);
+        SecurityContextHolder.setContext(securityContextMocked);
     }
 
     @Test
