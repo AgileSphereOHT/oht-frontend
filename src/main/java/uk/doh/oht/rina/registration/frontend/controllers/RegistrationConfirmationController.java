@@ -2,6 +2,8 @@ package uk.doh.oht.rina.registration.frontend.controllers;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,6 +50,8 @@ public class RegistrationConfirmationController {
         final RegistrationData oldRegistrationData = (RegistrationData)httpSession.getAttribute(S1_REGISTRATION_REQUEST);
         oldRegistrationData.setS073StartDate(registrationData.getS073StartDate());
         oldRegistrationData.setStartDate(registrationData.getStartDate());
+        oldRegistrationData.setModifiedByUserId(
+                ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
         retrieveRegistrationsDataService.updateRegistrationData(oldRegistrationData);
 
         log.info("Exit confirmRegistration");

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 9]><html class="lte-ie8" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--><html lang="en"><!--<![endif]-->
+<head>
+    <meta charset="utf-8" />
+    <title th:text="#{login.title}"></title>
+    <object th:replace="fragments/global_includes :: global_includes" th:remove="tag">...</object>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+</head>
+
+<body class="">
+<script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
+
+<div th:replace="fragments/header :: header">...</div>
+
+<main id="content" role="main">
+
+    <div th:replace="fragments/alpha-banner :: alpha-banner">...</div>
+
+    <h1 class="heading-xlarge" th:text="#{heading.login}"></h1>
+
+    <div class="grid-row" th:if="${param.error}">
+        <div class="column-two-thirds">
+            <div class="error-summary validation-summary">
+                <p th:text="#{login.error.message}"></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid-row" th:if="${param.logout}">
+        <div class="column-two-thirds">
+            <div class="notification error">
+                <p th:text="#{logout.message}"></p>
+            </div>
+        </div>
+    </div>
+
+    <form th:action="@{/login}" method="post" class="form" novalidate="novalidate">
+        <div class="form-item-wrapper">
+            <fieldset>
+                <div class="form-group">
+                    <label class="form-label-bold" for="username" th:text="#{username}"></label>
+                    <input type="text" id="username" name="username" value="" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label class="form-label-bold" for="password" th:text="#{password}"></label>
+                    <input type="password" id="password" name="password" value="" class="form-control" />
+                </div>
+            </fieldset>
+        </div>
+        <div class="form-item-wrapper">
+            <div class="form-group">
+                <button class="button" th:text="#{login.button}"></button>
+            </div>
+        </div>
+    </form>
+</main>
+
+<div th:replace="fragments/footer :: footer">...</div>
+
+</body>
+</html>
