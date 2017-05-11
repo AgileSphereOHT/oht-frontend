@@ -26,3 +26,7 @@ To allow IntelliJ to support Lombok install the plugin:
 ##### Confluence
 - https://oh-alpha-confluence.atlassian.net/wiki/display/OHA/Overseas+Healthcare+Alpha
 
+##### Default Users
+- ramesh/ramesh123
+- june/june123
+- heather/heather123

@@ -42,9 +42,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().withUser("ram").password("ram123").roles("ADMIN");
-        auth.inMemoryAuthentication().withUser("ravan").password("ravan123").roles("USER");
-        auth.inMemoryAuthentication().withUser("kans").password("kans123").roles("USER");
+        auth.inMemoryAuthentication().withUser("ramesh").password("ramesh123").roles("ADMIN");
+        auth.inMemoryAuthentication().withUser("june").password("june123").roles("USER");
+        auth.inMemoryAuthentication().withUser("heather").password("heather123").roles("USER");
     }
 
     private String[] getUnsecuredUrls() {
