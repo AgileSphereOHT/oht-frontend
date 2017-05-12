@@ -12,9 +12,9 @@ import java.io.Serializable;
 @Builder
 @Data
 @AllArgsConstructor
-public class ConfirmationDetails implements Serializable {
+public class UserWorkDetails implements Serializable {
     private String userFullName;
-    private Integer numberRequests;
-    private Integer numberRegistrations;
-    private Integer numberCancellations;
+    private Long numberRequests;
+    private Long numberRegistrations;
+    private Long numberCancellations;
 }

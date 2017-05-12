@@ -21,6 +21,8 @@ import java.util.List;
 @Slf4j
 @RequestMapping("/request")
 public class S1RequestController {
+    private final static String S1_PENDING_REGISTRATION_REQUEST = "S1PendingRegistrationRequest";
+
     private final RetrieveRegistrationsDataService retrieveRegistrationsDataService;
 
     @Inject
@@ -31,9 +33,9 @@ public class S1RequestController {
     @GetMapping(value = "s1-request", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String getPendingS1Request(final Model model, final HttpSession httpSession) {
         log.info("Enter getPendingS1Request");
-        List<PendingRegistrationData> pendingRegistrationDataList = retrieveRegistrationsDataService.getPendingS1Requests();
+        final List<PendingRegistrationData> pendingRegistrationDataList = retrieveRegistrationsDataService.getPendingS1Requests();
         if (!CollectionUtils.isEmpty(pendingRegistrationDataList)) {
-            httpSession.setAttribute("s1request", pendingRegistrationDataList.get(0));
+            httpSession.setAttribute(S1_PENDING_REGISTRATION_REQUEST, pendingRegistrationDataList.get(0));
             model.addAttribute("s1request", pendingRegistrationDataList.get(0));
         }
         log.info("Exit getPendingS1Request");

@@ -13,6 +13,7 @@ import uk.doh.oht.rina.registration.frontend.config.DataProperties;
 import uk.doh.oht.rina.registration.frontend.domain.PendingRegistrationData;
 import uk.doh.oht.rina.registration.frontend.domain.RegistrationData;
 import uk.doh.oht.rina.registration.frontend.domain.SearchData;
+import uk.doh.oht.rina.registration.frontend.domain.UserWorkDetails;
 
 
 import javax.inject.Inject;
@@ -60,6 +61,20 @@ public class RetrieveRegistrationsDataService {
         final HttpEntity<RegistrationData> entity = new HttpEntity<>(registrationData, new HttpHeaders());
         final ResponseEntity<Boolean> response = restTemplate.exchange(
                 dataProperties.buildRootPath() + "update-registration", HttpMethod.POST, entity, new ParameterizedTypeReference<Boolean>() {});
+        return response.getBody();
+    }
+
+    public UserWorkDetails retrieveUserWorkData(final String userName) {
+        final HttpEntity<String> entity = new HttpEntity<>(userName, new HttpHeaders());
+        final ResponseEntity<UserWorkDetails> response = restTemplate.exchange(
+                dataProperties.buildRootPath() + "retrieve-user-work-details", HttpMethod.POST, entity, new ParameterizedTypeReference<UserWorkDetails>() {});
+        return response.getBody();
+    }
+
+    public Boolean createS1Request(final PendingRegistrationData pendingRegistrationData) {
+        final HttpEntity<PendingRegistrationData> entity = new HttpEntity<>(pendingRegistrationData, new HttpHeaders());
+        final ResponseEntity<Boolean> response = restTemplate.exchange(
+                dataProperties.buildRootPath() + "create-s1-request", HttpMethod.POST, entity, new ParameterizedTypeReference<Boolean>() {});
         return response.getBody();
     }
 }

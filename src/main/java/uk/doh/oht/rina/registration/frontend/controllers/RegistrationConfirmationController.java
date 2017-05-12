@@ -9,7 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import uk.doh.oht.rina.registration.frontend.domain.ConfirmationDetails;
+import uk.doh.oht.rina.registration.frontend.domain.UserWorkDetails;
 import uk.doh.oht.rina.registration.frontend.domain.RegistrationData;
 import uk.doh.oht.rina.registration.frontend.service.RetrieveRegistrationsDataService;
 
@@ -58,12 +58,13 @@ public class RegistrationConfirmationController {
         return "redirect:/registration/s1-registration-confirmation";
     }
 
-    private ConfirmationDetails createConfirmationDetails(final RegistrationData registrationData) {
-        return ConfirmationDetails.builder()
+    private UserWorkDetails createConfirmationDetails(final RegistrationData registrationData) {
+        final UserWorkDetails userWorkDetails = retrieveRegistrationsDataService.retrieveUserWorkData(registrationData.getModifiedByUserId());
+        return UserWorkDetails.builder()
                 .userFullName(registrationData.getUserDetails().getFirstName() + " " + registrationData.getUserDetails().getLastName())
-                .numberRequests(0)
-                .numberRegistrations(1)
-                .numberCancellations(0)
+                .numberRequests(userWorkDetails.getNumberRequests())
+                .numberRegistrations(userWorkDetails.getNumberRegistrations())
+                .numberCancellations(userWorkDetails.getNumberCancellations())
                 .build();
     }
 }
