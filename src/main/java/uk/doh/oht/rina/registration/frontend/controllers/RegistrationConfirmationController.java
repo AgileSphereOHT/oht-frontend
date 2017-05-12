@@ -48,7 +48,6 @@ public class RegistrationConfirmationController {
         log.info("Enter confirmRegistration");
 
         final RegistrationData oldRegistrationData = (RegistrationData)httpSession.getAttribute(S1_REGISTRATION_REQUEST);
-        oldRegistrationData.setS073StartDate(registrationData.getS073StartDate());
         oldRegistrationData.setStartDate(registrationData.getStartDate());
         oldRegistrationData.setModifiedByUserId(
                 ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());

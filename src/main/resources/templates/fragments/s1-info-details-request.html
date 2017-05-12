@@ -51,37 +51,8 @@
                 </div>
             </td>
             <td class="bottomCell">
-                <div class="form-group">
-                    <div class="error-layer" th:classappend="${#fields.hasErrors('s073StartDate')} ? error">
-                        <fieldset>
-                            <legend class="form-label-bold" th:text="|#{date.registered.by} *{country}|">Date registered by Spain</legend>
-
-                            <div class="form-date">
-                                <!--<p class="form-hint" th:text="#{date.example}"></p>-->
-
-                                <div class="error-message" role="alert"
-                                     th:if="${#fields.hasErrors('s073StartDate')}"
-                                     th:errors="*{s073StartDate}" data-bsaid="s073StartDate-enterdetails-error" >Some error message
-                                </div>
-
-                                <div class="form-group form-group-day">
-                                    <label for="s073-day" th:text="#{s073.day}"></label>
-                                    <input class="form-control" id="s073-day" th:field="*{s073StartDate.days}" name="s073-day" type="text" maxlength="2" />
-                                </div>
-
-                                <div class="form-group form-group-month">
-                                    <label for="s073-month" th:text="#{s073.month}"></label>
-                                    <input class="form-control" id="s073-month" th:field="*{s073StartDate.month}" name="s073-month" type="text" maxlength="2" />
-                                </div>
-
-                                <div class="form-group form-group-year">
-                                    <label for="s073-year" th:text="#{s073.year}"></label>
-                                    <input class="form-control" id="s073-year" th:field="*{s073StartDate.year}" name="s073-year" type="text" maxlength="4" />
-                                </div>
-                            </div>
-                        </fieldset>
-                    </div>
-                </div>
+                <div class="form-label-bold" th:text="|#{date.registered.by} *{country}|">Date registered by Spain</div>
+                <span th:text="*{#dates.format(s073StartDate.date, 'dd MMMMMMM yyyy')}">26 February 1975</span>
             </td>
         </tr>
     </table>
