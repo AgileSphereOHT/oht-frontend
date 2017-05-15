@@ -30,14 +30,18 @@ public class RegistrationRequestController {
 
     @GetMapping(value = "s1-registration-request", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String getNextS1Request(final Model model, final HttpSession httpSession) {
-        log.info("Enter getNextS1Request");
-        //got to rina and get latest S073
-        List<RegistrationData> registrationData = searchService.searchForNextCase();
-        if (!CollectionUtils.isEmpty(registrationData)) {
+        try {
+            log.info("Enter getNextS1Request");
+            //got to rina and get latest S073
+            List<RegistrationData> registrationData = searchService.searchForNextCase();
+            if (CollectionUtils.isEmpty(registrationData)) {
+                return "redirect:/request/s1-request";
+            }
             httpSession.setAttribute("S1RegistrationRequest", registrationData.get(0));
             model.addAttribute("registration", registrationData.get(0));
+            return "/registration/s1-registration-request";
+        } finally {
+            log.info("Exit getNextS1Request");
         }
-        log.info("Exit getNextS1Request");
-        return "/registration/s1-registration-request";
     }
 }

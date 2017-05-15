@@ -43,15 +43,16 @@
                 <div class="form-date">
                     <div class="form-group form-group-day">
                         <label class="form-label" for="start-day" th:text="#{s1.request.day}">Day</label>
-                        <input class="form-control" id="start-day" name="start-day" type="number" pattern="[0-9]*" min="0" max="31" aria-describedby="example-dob-hint-3">
+                        <input class="form-control" id="start-day" th:field="*{startDate.days}" name="start-day" type="number" pattern="[0-9]*" min="0" max="31" aria-describedby="example-dob-hint-3">
                     </div>
                     <div class="form-group form-group-month">
                         <label class="form-label" for="start-month" th:text="#{s1.request.month}">Month</label>
-                        <input class="form-control" id="start-month" name="start-month" type="number" pattern="[0-9]*" min="0" max="12">
+                        <input class="form-control" id="start-month" th:field="*{startDate.month}" name="start-month" type="number" pattern="[0-9]*" min="0" max="12">
                     </div>
+
                     <div class="form-group form-group-year">
                         <label class="form-label" for="start-year" th:text="#{s1.request.year}">Year</label>
-                        <input class="form-control" id="start-year" name="start-year" type="number" pattern="[0-9]*" min="0" max="2055">
+                        <input class="form-control" id="start-year" th:field="*{startDate.year}" name="start-year" type="number" pattern="[0-9]*" min="0" max="2055">
                     </div>
                 </div>
             </fieldset>

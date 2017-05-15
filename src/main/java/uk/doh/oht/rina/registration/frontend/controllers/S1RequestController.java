@@ -32,13 +32,17 @@ public class S1RequestController {
 
     @GetMapping(value = "s1-request", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String getPendingS1Request(final Model model, final HttpSession httpSession) {
-        log.info("Enter getPendingS1Request");
-        final List<PendingRegistrationData> pendingRegistrationDataList = retrieveRegistrationsDataService.getPendingS1Requests();
-        if (!CollectionUtils.isEmpty(pendingRegistrationDataList)) {
+        try {
+            log.info("Enter getPendingS1Request");
+            final List<PendingRegistrationData> pendingRegistrationDataList = retrieveRegistrationsDataService.getPendingS1Requests();
+            if (CollectionUtils.isEmpty(pendingRegistrationDataList)) {
+                return "redirect:/no-more-cases-in-queue";
+            }
             httpSession.setAttribute(S1_PENDING_REGISTRATION_REQUEST, pendingRegistrationDataList.get(0));
             model.addAttribute("s1request", pendingRegistrationDataList.get(0));
+            return "/request/s1-request";
+        } finally {
+            log.info("Exit getPendingS1Request");
         }
-        log.info("Exit getPendingS1Request");
-        return "/request/s1-request";
     }
 }

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <title th:text="#{s1.request.created.title}">S1 Request Created</title>
+    <title th:text="#{no.cases.title}">No Cases</title>
 
     <div th:if="false">
         <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
@@ -19,10 +19,9 @@
     <div th:replace="fragments/alpha-banner :: alpha-banner">...</div>
 
     <div class="govuk-box-highlight">
-        <div class="bold-large"><span th:text="#{s1.request.created.for}">S1 form created for </span>&nbsp;<span th:text="*{userFullName}">Harry Howard</span></div>
+        <div class="bold-large"><span th:text="#{no.cases.in.queue}">No more cases in queue</span></div>
     </div>
 
-    <span th:text="#{s1.request.copies.printed}">2 copies of this S1 and a cover letter will be printed for you.</span>
     <div class="column-three-thirds">
         <h1 class="heading-large"><span th:text="#{your.cases}">Your cases</span><span class="heading-secondary"></span></h1>
         <p th:text="#{today.worked.on}">Today, you have worked on:</p>
