@@ -31,7 +31,7 @@ public class RegistrationConfirmationController {
         this.retrieveRegistrationsDataService = retrieveRegistrationsDataService;
     }
 
-    @GetMapping(value = "s1-registration-confirmation", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value = "/s1-registration-confirmation", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String getS1RequestConfirmation(final Model model, final HttpSession httpSession) {
         log.info("Enter getS1RequestConfirmation");
 
@@ -40,10 +40,10 @@ public class RegistrationConfirmationController {
         httpSession.removeAttribute(S1_REGISTRATION_REQUEST);
 
         log.info("Exit getS1RequestConfirmation");
-        return "/registration/s1-registration-confirmation";
+        return "registration/s1-registration-confirmation";
     }
 
-    @PostMapping(value = "confirm-s1-registration", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(value = "/confirm-s1-registration", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String confirmRegistration(final RegistrationData registrationData, final Model model, final HttpSession httpSession) {
         log.info("Enter confirmRegistration");
 

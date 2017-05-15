@@ -31,7 +31,7 @@ public class CreateS1RequestController {
         this.retrieveRegistrationsDataService = retrieveRegistrationsDataService;
     }
 
-    @GetMapping(value = "s1-request-created", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value = "/s1-request-created", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String getS1RequestCreated(final Model model, final HttpSession httpSession) {
         log.info("Enter getS1RequestCreated");
 
@@ -41,10 +41,10 @@ public class CreateS1RequestController {
         httpSession.removeAttribute(S1_PENDING_REGISTRATION_REQUEST);
 
         log.info("Exit getS1RequestConfirmation");
-        return "/request/s1-request-created";
+        return "request/s1-request-created";
     }
 
-    @PostMapping(value = "create-s1-request", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(value = "/create-s1-request", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String createS1Request(final PendingRegistrationData pendingRegistrationData, final Model model, final HttpSession httpSession) {
         log.info("Enter getS1RequestCreated");
 

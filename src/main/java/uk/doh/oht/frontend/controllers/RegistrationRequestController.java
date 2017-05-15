@@ -28,7 +28,7 @@ public class RegistrationRequestController {
         this.searchService = searchService;
     }
 
-    @GetMapping(value = "s1-registration-request", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value = "/s1-registration-request", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String getNextS1Request(final Model model, final HttpSession httpSession) {
         try {
             log.info("Enter getNextS1Request");
@@ -39,7 +39,7 @@ public class RegistrationRequestController {
             }
             httpSession.setAttribute("S1RegistrationRequest", registrationData.get(0));
             model.addAttribute("registration", registrationData.get(0));
-            return "/registration/s1-registration-request";
+            return "registration/s1-registration-request";
         } finally {
             log.info("Exit getNextS1Request");
         }

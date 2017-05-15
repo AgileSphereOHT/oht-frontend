@@ -30,7 +30,7 @@ public class S1RequestController {
         this.retrieveRegistrationsDataService = retrieveRegistrationsDataService;
     }
 
-    @GetMapping(value = "s1-request", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value = "/s1-request", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String getPendingS1Request(final Model model, final HttpSession httpSession) {
         try {
             log.info("Enter getPendingS1Request");
@@ -40,7 +40,7 @@ public class S1RequestController {
             }
             httpSession.setAttribute(S1_PENDING_REGISTRATION_REQUEST, pendingRegistrationDataList.get(0));
             model.addAttribute("s1request", pendingRegistrationDataList.get(0));
-            return "/request/s1-request";
+            return "request/s1-request";
         } finally {
             log.info("Exit getPendingS1Request");
         }
