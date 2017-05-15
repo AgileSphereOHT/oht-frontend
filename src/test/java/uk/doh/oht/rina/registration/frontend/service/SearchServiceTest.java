@@ -57,7 +57,7 @@ public class SearchServiceTest {
     public void testSearchForNextCase() throws Exception {
         given(retrieveRinaDataService.searchForNextCase()).willReturn(openCaseSearchResultList);
         given(retrieveRegistrationsDataService.searchForNextCase(searchDataList)).willReturn(registrationDataList);
-        List<RegistrationData> returnedRegistrationDataList = searchService.searchForNextCase();
+        final List<RegistrationData> returnedRegistrationDataList = searchService.searchForNextCase();
         assertThat(registrationDataList, is(returnedRegistrationDataList));
     }
 }

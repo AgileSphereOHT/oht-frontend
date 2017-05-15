@@ -41,7 +41,7 @@ public class RegistrationRequestControllerTest {
                 .standaloneSetup(new RegistrationRequestController(searchService))
                 .setViewResolvers(new StandaloneMvcTestViewResolver())
                 .build();
-        RegistrationData registrationData = new RegistrationData();
+        final RegistrationData registrationData = new RegistrationData();
         registrationData.setCountry("UK");
         listData.add(registrationData);
     }
@@ -54,18 +54,5 @@ public class RegistrationRequestControllerTest {
                 .andExpect(handler().methodName("getNextS1Request"))
                 .andExpect(handler().handlerType(RegistrationRequestController.class))
                 .andExpect(status().is2xxSuccessful());
-    }
-
-    class StandaloneMvcTestViewResolver extends InternalResourceViewResolver {
-        public StandaloneMvcTestViewResolver() {
-            super();
-        }
-        @Override
-        protected AbstractUrlBasedView buildView(final String viewName) throws Exception {
-            final InternalResourceView view = (InternalResourceView) super.buildView(viewName);
-            // prevent checking for circular view paths
-            view.setPreventDispatchLoop(false);
-            return view;
-        }
     }
 }

@@ -13,8 +13,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import uk.doh.oht.rina.registration.frontend.domain.RegistrationData;
-import uk.doh.oht.rina.registration.frontend.domain.UserDetails;
+import uk.doh.oht.rina.registration.frontend.domain.PendingRegistrationData;
 import uk.doh.oht.rina.registration.frontend.domain.UserWorkDetails;
 import uk.doh.oht.rina.registration.frontend.service.RetrieveRegistrationsDataService;
 
@@ -25,15 +24,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * Created by peterwhitehead on 04/05/2017.
+ * Created by peterwhitehead on 15/05/2017.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
-public class RegistrationConfirmationControllerTest {
+public class CreateS1RequestControllerTest {
     private MockMvc mockMvc;
+
+    private final MockHttpSession session = new MockHttpSession();
 
     @Mock
     private RetrieveRegistrationsDataService retrieveRegistrationsDataService;
+
     @Mock
     private SecurityContext securityContextMocked;
     @Mock
@@ -41,42 +43,41 @@ public class RegistrationConfirmationControllerTest {
     @Mock
     private org.springframework.security.core.userdetails.UserDetails principal;
 
-    private final MockHttpSession session = new MockHttpSession();
-
-    private final RegistrationData oldRegistrationData = new RegistrationData();
-
     @Before
     public void setUp() throws Exception {
         mockMvc = MockMvcBuilders
-                .standaloneSetup(new RegistrationConfirmationController(retrieveRegistrationsDataService))
+                .standaloneSetup(new CreateS1RequestController(retrieveRegistrationsDataService))
                 .setViewResolvers(new StandaloneMvcTestViewResolver())
                 .build();
-        oldRegistrationData.setUserDetails(new UserDetails());
         given(authenticationMocked.getPrincipal()).willReturn(principal);
         given(securityContextMocked.getAuthentication()).willReturn(authenticationMocked);
         SecurityContextHolder.setContext(securityContextMocked);
     }
 
     @Test
-    public void testConfirmRegistration() throws Exception {
-        session.setAttribute("S1RegistrationRequest", oldRegistrationData);
-        mockMvc.perform(MockMvcRequestBuilders.post("/registration/confirm-s1-registration")
+    public void testGetS1RequestCreated() throws Exception {
+        final PendingRegistrationData pendingRegistrationData = new PendingRegistrationData();
+        final UserWorkDetails userWorkDetails =  new UserWorkDetails(null + " " + null, 1l, 2l, 3l);
+
+        session.setAttribute("S1PendingRegistrationRequest", pendingRegistrationData);
+        given(retrieveRegistrationsDataService.retrieveUserWorkData(anyString())).willReturn(userWorkDetails);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/request/s1-request-created")
                 .session(session))
-                .andExpect(handler().methodName("confirmRegistration"))
-                .andExpect(handler().handlerType(RegistrationConfirmationController.class))
-                .andExpect(status().is3xxRedirection());
+                .andExpect(handler().methodName("getS1RequestCreated"))
+                .andExpect(handler().handlerType(CreateS1RequestController.class))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(model().attribute("details", userWorkDetails));
     }
 
     @Test
-    public void testGetS1RequestConfirmation() throws Exception {
-        final UserWorkDetails userWorkDetails =  new UserWorkDetails(null + " " + null, 1l, 2l, 3l);
-        session.setAttribute("S1RegistrationRequest", oldRegistrationData);
-        given(retrieveRegistrationsDataService.retrieveUserWorkData(anyString())).willReturn(userWorkDetails);
-        mockMvc.perform(MockMvcRequestBuilders.get("/registration/s1-registration-confirmation")
+    public void testCreateS1Request() throws Exception {
+        final PendingRegistrationData pendingRegistrationData = new PendingRegistrationData();
+        session.setAttribute("S1PendingRegistrationRequest", pendingRegistrationData);
+        mockMvc.perform(MockMvcRequestBuilders.post("/request/create-s1-request")
                 .session(session))
-                .andExpect(handler().methodName("getS1RequestConfirmation"))
-                .andExpect(handler().handlerType(RegistrationConfirmationController.class))
-                .andExpect(status().is2xxSuccessful())
-                .andExpect(model().attribute("details", userWorkDetails));
+                .andExpect(handler().methodName("createS1Request"))
+                .andExpect(handler().handlerType(CreateS1RequestController.class))
+                .andExpect(status().is3xxRedirection());
     }
 }

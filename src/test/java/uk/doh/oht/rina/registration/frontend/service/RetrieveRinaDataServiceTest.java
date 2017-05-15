@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import uk.doh.oht.rina.registration.frontend.config.RinaProperties;
 import uk.doh.oht.rina.registration.frontend.domain.CaseDefinition;
+import uk.doh.oht.rina.registration.frontend.domain.OpenCaseSearchResult;
 import uk.doh.oht.rina.registration.frontend.domain.bucs.BucData;
 
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.anyString;
 
 /**
- * Created by peterwhitehead on 02/05/2017.
+ * Created by peterwhitehead on 15/05/2017.
  */
 @RunWith(MockitoJUnitRunner.class)
 public class RetrieveRinaDataServiceTest {
@@ -58,9 +59,9 @@ public class RetrieveRinaDataServiceTest {
 
     @Test
     public void testGetAllCases() throws Exception {
-        ResponseEntity<List<Map<String, Object>>> responseEntity = new ResponseEntity(listData, HttpStatus.OK);
+        final ResponseEntity<List<Map<String, Object>>> responseEntity = new ResponseEntity(listData, HttpStatus.OK);
         given(restTemplate.exchange(anyString(), Mockito.<HttpMethod> any(), Mockito.<HttpEntity<String>> any(), Matchers.<ParameterizedTypeReference<List<Map<String, Object>>>> any())).willReturn(responseEntity);
-        List<CaseDefinition> list = retrieveRinaDataService.getAllCases();
+        final List<CaseDefinition> list = retrieveRinaDataService.getAllCases();
         assertThat(list.size(), is(1));
         assertThat(list.get(0).getCaseId(), is(CASE_ID_VALUE));
         assertThat(list.get(0).getProcessDefinitionId(), is(DOCUMENT_ID_VALUE));
@@ -68,20 +69,33 @@ public class RetrieveRinaDataServiceTest {
 
     @Test
     public void testGetCase() throws Exception {
-        ResponseEntity<Map<String, Object>> responseEntity = new ResponseEntity(bucData, HttpStatus.OK);
+        final ResponseEntity<Map<String, Object>> responseEntity = new ResponseEntity(bucData, HttpStatus.OK);
         given(restTemplate.exchange(anyString(), Mockito.<HttpMethod> any(), Mockito.<HttpEntity<String>> any(), Matchers.<ParameterizedTypeReference<Map<String, Object>>> any())).willReturn(responseEntity);
-        BucData data = retrieveRinaDataService.getCase(CASE_ID_VALUE);
+        final BucData data = retrieveRinaDataService.getCase(CASE_ID_VALUE);
         assertThat(data.getId(), is(CASE_ID_VALUE));
         assertThat(data.getProcessDefinitionName(), is("Test"));
     }
 
     @Test
     public void testGetDocument() throws Exception {
-        ResponseEntity<Map<String, Object>> responseEntity = new ResponseEntity(mapData, HttpStatus.OK);
+        final ResponseEntity<Map<String, Object>> responseEntity = new ResponseEntity(mapData, HttpStatus.OK);
         given(restTemplate.exchange(anyString(), Mockito.<HttpMethod> any(), Mockito.<HttpEntity<String>> any(), Matchers.<ParameterizedTypeReference<Map<String, Object>>> any())).willReturn(responseEntity);
-        Map<String, Object> data = retrieveRinaDataService.getDocument(CASE_ID_VALUE, DOCUMENT_ID_VALUE);
+        final Map<String, Object> data = retrieveRinaDataService.getDocument(CASE_ID_VALUE, DOCUMENT_ID_VALUE);
         assertThat(data.size(), is(2));
         assertThat(data.get("id"), is(CASE_ID_VALUE));
         assertThat(data.get("processDefinitionId"), is(DOCUMENT_ID_VALUE));
+    }
+
+    @Test
+    public void testSearchForNextCase() throws Exception {
+        final List<OpenCaseSearchResult> openCaseSearchResultList = new ArrayList<>();
+        final OpenCaseSearchResult openCaseSearchResult = new OpenCaseSearchResult();
+        openCaseSearchResult.setTraits(openCaseSearchResult. new Traits());
+        openCaseSearchResultList.add(openCaseSearchResult);
+
+        final ResponseEntity<List<OpenCaseSearchResult>> responseEntity = new ResponseEntity(openCaseSearchResultList, HttpStatus.OK);
+        given(restTemplate.exchange(anyString(), Mockito.<HttpMethod> any(), Mockito.<HttpEntity<String>> any(), Matchers.<ParameterizedTypeReference<List<OpenCaseSearchResult>>> any())).willReturn(responseEntity);
+        final List<OpenCaseSearchResult> openCases = retrieveRinaDataService.searchForNextCase();
+        assertThat(openCaseSearchResultList, is(openCases));
     }
 }
