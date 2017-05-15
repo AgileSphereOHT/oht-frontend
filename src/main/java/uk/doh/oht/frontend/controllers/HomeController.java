@@ -25,6 +25,6 @@ public class HomeController {
                 StringUtils.capitalize(
                         ((UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername()));
         log.info("Exit displayRetrieveNextCase");
-        return "/home";
+        return "home";
     }
 }
