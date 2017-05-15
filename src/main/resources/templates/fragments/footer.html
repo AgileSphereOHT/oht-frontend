@@ -10,8 +10,8 @@
                 <div class="footer-meta-inner">
                     <ul>
                         <li>
-                            <a th:if="__${#locale}__=='en'" href="/home?lang=cy">Cymraeg</a>
-                            <a th:if="__${#locale}__!='en'" href="/home?lang=en">English</a>
+                            <a th:if="__${#locale}__=='en'" th:href="@{''(lang=cy)}">Cymraeg</a>
+                            <a th:if="__${#locale}__!='en'" th:href="@{''(lang=en)}">English</a>
                         </li>
                         <br/>
                         <li th:text="#{built.by}">Built by the Overseas Healthcare Team, Washington, UK</li>
