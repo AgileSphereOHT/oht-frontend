@@ -32,7 +32,7 @@ allprojects {
     apply plugin: 'fpm-packaging'
     apply plugin: 'org.owasp.dependencycheck'
     version = "1.0.0-${candidate}"
-    archivesBaseName = 'oht-rina-registration'
+    archivesBaseName = 'oht-frontend'
     group = 'uk.doh.oht'
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
@@ -143,9 +143,9 @@ publishing {
 }
 
 rpm {
-    packageName = 'oht-rina-registration-frontend' // Optional, default is project.name
+    packageName = 'oht-frontend' // Optional, default is project.name
     baseDir = "${project.buildDir}/build/libs" // Optional, base directory to package, default: project.buildDir
-    prefix = '/uk/doh/oht/rina-registration' // Optional, a path to prefix files when building package, default: root (/)
+    prefix = '/uk/doh/oht/frontend' // Optional, a path to prefix files when building package, default: root (/)
     extraOptions = ['--vendor': 'DOH', '--maintainer': 'OH Team'] // Optional, a map containing extra options
     extraFlags   = ['--rpm-auto-add-directories'] // Optional, a list of additional flags to fpm
 }
@@ -165,11 +165,10 @@ test {
 
 bootRun {
     addResources = true
-    jvmArgs = ['-Xdebug', '-Xrunjdwp:server=y,transport=dt_socket,address=4000,suspend=y']
 }
 
 springBoot {
-    mainClass = "uk.doh.oht.rina.registration.frontend.OHTRinaRegistrationFrontendApplication"
+    mainClass = "uk.doh.oht.OHTFrontendApplication"
 }
 
 jar {
