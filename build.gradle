@@ -168,7 +168,7 @@ bootRun {
 }
 
 springBoot {
-    mainClass = "uk.doh.oht.OHTFrontendApplication"
+    mainClass = "uk.doh.oht.frontend.OHTFrontendApplication"
 }
 
 jar {

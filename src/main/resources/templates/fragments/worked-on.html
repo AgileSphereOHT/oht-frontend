@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<div th:fragment="worked-on" class="grid-row">
+    <div class="column-one-third">
+        <h1 class="heading-large"><span th:text="#{your.cases}">Your cases</span><span class="heading-secondary"></span></h1>
+        <p th:text="#{today.worked.on}">Today, you have worked on:</p>
+        <ul class="list list-bullet">
+            <li><span th:text="*{numberDailyRequests}">7</span> <span th:text="#{your.requests}">requests for an S1</span></li>
+            <li><span th:text="*{numberDailyRegistrations}">4</span> <span th:text="#{your.registrations}">registrations</span></li>
+            <li><span th:text="*{numberDailyCancellations}">5</span> <span th:text="#{your.cancellations}">cancellations</span></li>
+        </ul>
+    </div>
+    <div class="column-one-third">
+        <h1 class="heading-large" style="visibility: hidden"><span th:text="#{your.cases}">Your cases</span><span class="heading-secondary"></span></h1>
+        <p th:text="#{month.worked.on}">This month, you have worked on:</p>
+        <ul class="list list-bullet">
+            <li><span th:text="*{numberMonthlyRequests}">7</span> <span th:text="#{your.requests}">requests for an S1</span></li>
+            <li><span th:text="*{numberMonthlyRegistrations}">4</span> <span th:text="#{your.registrations}">registrations</span></li>
+            <li><span th:text="*{numberMonthlyCancellations}">5</span> <span th:text="#{your.cancellations}">cancellations</span></li>
+        </ul>
+        <br>
+    </div>
+</div>
+</html>

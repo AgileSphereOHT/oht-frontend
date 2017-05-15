@@ -22,16 +22,8 @@
         <div class="bold-large"><span th:text="#{no.cases.in.queue}">No more cases in queue</span></div>
     </div>
 
-    <div class="column-three-thirds">
-        <h1 class="heading-large"><span th:text="#{your.cases}">Your cases</span><span class="heading-secondary"></span></h1>
-        <p th:text="#{today.worked.on}">Today, you have worked on:</p>
-        <ul class="list list-bullet">
-            <li><span th:text="*{numberRequests}">7</span> <span th:text="#{your.requests}">requests for an S1</span></li>
-            <li><span th:text="*{numberRegistrations}">4</span> <span th:text="#{your.registrations}">registrations</span></li>
-            <li><span th:text="*{numberCancellations}">5</span> <span th:text="#{your.cancellations}">cancellations</span></li>
-        </ul>
+    <div th:replace="fragments/worked-on :: worked-on">...</div>
 
-    </div>
     <form action="/registration/s1-registration-request">
         <div class="form-group">
             <input class="button" type="submit" th:value="#{get.another.case}">
