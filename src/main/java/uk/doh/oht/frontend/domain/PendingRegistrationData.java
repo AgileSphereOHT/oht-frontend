@@ -58,8 +58,6 @@ public class PendingRegistrationData implements Serializable {
     private String hasForeignPension;
     private String occupationType;
     private String requestedBy;
-    private Date creationDate;
-    private Date lastUpdatedDate;
     private String caseId;
     private StartDateFormDate startDate;
     private String modifiedByUserId;
