@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<div th:fragment="s1-registration-search-results">
+    <br>
+    <span class="heading-small" style="padding-right: 40px"><span id="number-search-results" th:text="${#lists.size(allPartialSearches)}">6</span> <span th:text="#{search.results.partial.matches}">partial matches</span></span>
+    <a href="javascript:void(0);" th:onclick="'javascript:clearTableRows(\'search-results\');'" th:text="#{search.results.clear.results}">Clear results</a>
+    <table id="search-results" class="table-font-xsmall">
+        <thead>
+            <tr>
+                <th class="text" scope="col" th:text="#{search.results.first.name}">First name</th>
+                <th class="text" scope="col" th:text="#{search.results.last.name}">Last name</th>
+                <th class="text" scope="col" th:text="#{search.results.gender}">Gender</th>
+                <th class="text" scope="col" th:text="#{search.results.date.of.birth}">Date of birth</th>
+                <th class="text" scope="col" th:text="#{search.results.nino}">National Insurance number</th>
+                <th class="text" scope="col" th:text="#{search.results.address}">Current address</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:object="${allPartialSearches}" th:each="partial : ${allPartialSearches}">
+                <td class="text" th:text="${partial.userDetails.firstName}">Harry</td>
+                <td class="text" th:text="${partial.userDetails.lastName}">Howard</td>
+                <td class="text" th:text="${partial.userDetails.gender}">Male</td>
+                <td class="text" th:text="${#dates.format(partial.userDetails.dateOfBirth, 'dd MMMMMMM yyyy')}">26 February 1952</td>
+                <td class="text" th:text="${partial.userDetails.nino}">JC 34 43 45 C</td>
+                <td th:if="${#lists.size(partial.addresses) == 0}" class="text"></td>
+                <td th:if="${#lists.size(partial.addresses) != 0}" class="text" th:utext="${partial.currentAddress}"></td>
+                <td class="text"><a href="S1RegistrationRequest.html" th:text="#{search.results.select}">Select</a></td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+</div>
+</html>

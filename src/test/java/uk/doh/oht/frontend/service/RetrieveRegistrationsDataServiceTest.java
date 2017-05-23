@@ -10,11 +10,11 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
+import uk.doh.oht.db.domain.PendingRegistrationData;
+import uk.doh.oht.db.domain.RegistrationData;
+import uk.doh.oht.db.domain.SearchData;
+import uk.doh.oht.db.domain.UserWorkDetails;
 import uk.doh.oht.frontend.config.DataProperties;
-import uk.doh.oht.frontend.domain.PendingRegistrationData;
-import uk.doh.oht.frontend.domain.RegistrationData;
-import uk.doh.oht.frontend.domain.SearchData;
-import uk.doh.oht.frontend.domain.UserWorkDetails;
 
 import java.util.ArrayList;
 import java.util.List;

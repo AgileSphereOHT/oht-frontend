@@ -10,8 +10,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import uk.doh.oht.frontend.domain.CaseDefinition;
-import uk.doh.oht.frontend.domain.bucs.BucData;
 import uk.doh.oht.frontend.service.RetrieveRinaDataService;
+import uk.doh.oht.rina.domain.bucs.BucData;
 
 import java.util.ArrayList;
 import java.util.HashMap;

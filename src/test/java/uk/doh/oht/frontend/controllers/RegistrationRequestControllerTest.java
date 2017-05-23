@@ -9,7 +9,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import uk.doh.oht.frontend.domain.RegistrationData;
+import uk.doh.oht.db.domain.RegistrationData;
+import uk.doh.oht.frontend.domain.SearchResults;
 import uk.doh.oht.frontend.service.SearchService;
 
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class RegistrationRequestControllerTest {
     private MockMvc mockMvc;
 
     private final List<RegistrationData> listData = new ArrayList<>();
+    private SearchResults searchResults;
 
     @Mock
     private SearchService searchService;
@@ -41,11 +43,13 @@ public class RegistrationRequestControllerTest {
         final RegistrationData registrationData = new RegistrationData();
         registrationData.setCountry("UK");
         listData.add(registrationData);
+        searchResults = new SearchResults();
+        searchResults.setRegistrationDataList(listData);
     }
 
     @Test
     public void testGetNextS1Request() throws Exception {
-        given(searchService.searchForNextCase()).willReturn(listData);
+        given(searchService.searchForNextCase()).willReturn(searchResults);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/registration/s1-registration-request"))
                 .andExpect(handler().methodName("getNextS1Request"))

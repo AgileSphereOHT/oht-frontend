@@ -13,9 +13,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import uk.doh.oht.frontend.domain.RegistrationData;
-import uk.doh.oht.frontend.domain.UserDetails;
-import uk.doh.oht.frontend.domain.UserWorkDetails;
+import uk.doh.oht.db.domain.RegistrationData;
+import uk.doh.oht.db.domain.UserDetails;
+import uk.doh.oht.db.domain.UserWorkDetails;
 import uk.doh.oht.frontend.service.RetrieveRegistrationsDataService;
 
 import static org.mockito.BDDMockito.given;
@@ -51,7 +51,7 @@ public class RegistrationConfirmationControllerTest {
                 .standaloneSetup(new RegistrationConfirmationController(retrieveRegistrationsDataService))
                 .setViewResolvers(new StandaloneMvcTestViewResolver())
                 .build();
-        oldRegistrationData.setUserDetails(new UserDetails());
+        oldRegistrationData.setUserDetails(UserDetails.builder().build());
         given(authenticationMocked.getPrincipal()).willReturn(principal);
         given(securityContextMocked.getAuthentication()).willReturn(authenticationMocked);
         SecurityContextHolder.setContext(securityContextMocked);

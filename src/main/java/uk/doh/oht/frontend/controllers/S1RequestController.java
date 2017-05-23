@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import uk.doh.oht.frontend.domain.PendingRegistrationData;
+import uk.doh.oht.db.domain.PendingRegistrationData;
 import uk.doh.oht.frontend.service.RetrieveRegistrationsDataService;
 
 import javax.inject.Inject;

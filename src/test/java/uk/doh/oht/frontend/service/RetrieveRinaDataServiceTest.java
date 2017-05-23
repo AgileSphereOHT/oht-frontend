@@ -15,8 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import uk.doh.oht.frontend.config.RinaProperties;
 import uk.doh.oht.frontend.domain.CaseDefinition;
-import uk.doh.oht.frontend.domain.OpenCaseSearchResult;
-import uk.doh.oht.frontend.domain.bucs.BucData;
+import uk.doh.oht.rina.domain.OpenCaseSearchResult;
+import uk.doh.oht.rina.domain.bucs.BucData;
 
 import java.util.ArrayList;
 import java.util.HashMap;

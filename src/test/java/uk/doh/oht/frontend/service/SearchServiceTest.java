@@ -5,9 +5,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import uk.doh.oht.frontend.domain.OpenCaseSearchResult;
-import uk.doh.oht.frontend.domain.RegistrationData;
-import uk.doh.oht.frontend.domain.SearchData;
+import uk.doh.oht.db.domain.RegistrationData;
+import uk.doh.oht.db.domain.SearchData;
+import uk.doh.oht.frontend.domain.SearchResults;
+import uk.doh.oht.rina.domain.OpenCaseSearchResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +58,7 @@ public class SearchServiceTest {
     public void testSearchForNextCase() throws Exception {
         given(retrieveRinaDataService.searchForNextCase()).willReturn(openCaseSearchResultList);
         given(retrieveRegistrationsDataService.searchForNextCase(searchDataList)).willReturn(registrationDataList);
-        final List<RegistrationData> returnedRegistrationDataList = searchService.searchForNextCase();
-        assertThat(registrationDataList, is(returnedRegistrationDataList));
+        final SearchResults searchResults = searchService.searchForNextCase();
+        assertThat(registrationDataList, is(searchResults.getRegistrationDataList()));
     }
 }

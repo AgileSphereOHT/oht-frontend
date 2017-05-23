@@ -12,7 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import uk.doh.oht.frontend.domain.UserWorkDetails;
+import uk.doh.oht.db.domain.UserWorkDetails;
 import uk.doh.oht.frontend.service.RetrieveRegistrationsDataService;
 
 import static org.mockito.BDDMockito.given;

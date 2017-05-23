@@ -9,7 +9,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import uk.doh.oht.frontend.domain.PendingRegistrationData;
+import uk.doh.oht.db.domain.PendingRegistrationData;
 import uk.doh.oht.frontend.service.RetrieveRegistrationsDataService;
 
 import java.util.ArrayList;

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title th:text="#{s1.registration.search.title}">Search for a customer</title>
+
+    <div th:if="false">
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script src="http://blackpeppersoftware.github.io/thymeleaf-fragment.js/thymeleaf-fragment.js" defer="defer"></script>
+        <!--UX stuff here-->
+    </div>
+
+    <object th:replace="fragments/global_includes :: global_includes" th:remove="tag">...</object>
+</head>
+<body>
+
+<div th:replace="fragments/oht_header :: header">...</div>
+
+<main id="content" role="main">
+    <div th:replace="fragments/alpha-banner :: alpha-banner">...</div>
+    <div class="column-three-thirds">
+        <h1 class="heading-large"><span th:text="#{register.an.s1}">Register an S1 form</span><span class="heading-secondary"></span></h1>
+        <h3 class="heading-small" th:text="#{customer.details}">Customer Details</h3>
+        <div class="s1info">
+            <table class="table-font-xsmall">
+                <tr class="noBorder" th:object="${currentSearchResult}">
+                    <td class="bottomCell"><div class="dataHeader" th:text="#{search.results.first.name}">First name</div><span th:text="${currentSearchResult.traits.name}">Harry</span></td>
+                    <td class="bottomCell"><div class="dataHeader" th:text="#{search.results.last.name}">Last name</div><span th:text="${currentSearchResult.traits.surname}">Howard</span></td>
+                    <td class="bottomCell"><div class="dataHeader" th:text="#{search.results.gender}">Gender</div><span>Male</span></td>
+                    <td class="bottomCell"><div class="dataHeader" th:text="#{search.results.date.of.birth}">Date of birth</div><span th:text="${#dates.format(currentSearchResult.traits.birthday, 'dd MMMMMMM yyyy')}">26 February 1952</span></td>
+                    <td class="bottomCell"><div class="dataHeader" th:text="#{search.results.nino}">National Insurance number</div><span th:text="${currentSearchResult.traits.localPin}">JC 34 43 45 C</span></td>
+                    <td class="bottomCell"><div class="dataHeader" th:text="#{search.results.address}">Current address</div><span th:utext="${currentSearchResult.formattedAddress}">40 Invisible Street<br>Nowhere City<br>XX9 4YY<br>UK</span></td>
+                </tr>
+            </table>
+        </div>
+
+        <div th:replace="registration/fragments/s1-registration-search-results :: s1-registration-search-results">...</div>
+        <br>
+        <form id="choose-manual-search-form"
+              class="form validate"
+              method="POST"
+              autocomplete="off"
+              th:action="@{/search-customer}"
+              th:object="${searchCustomerData}">
+
+            <div class="form-group">
+                <div class="error-layer" th:classappend="${#fields.hasErrors('search')} ? error">
+                    <fieldset>
+                        <label for="search-customer" class="block-label selection-button-radio" data-target="search-for-customer" >
+                            <input id="search-customer" type="checkbox" name="search-customer" class="form-control" value="manual" th:text="#{manual.customer.search}"
+                                   th:field="*{searchSelected}"
+                                   th:checked="*{searchSelected} == 'manual'" />
+                        </label>
+                        <div class="panel panel-border-narrow js-hidden hidden" th:classappend="${#fields.hasErrors('search')} ? error" id="search-for-customer" aria-hidden="true">
+                            <div class="form-field-group">
+                                <label class="form-label" for="search" th:text="#{search.label}">You can search by any combination of first name, last name, date of birth and National Insurance number.</label>
+
+                                <div class="error-message" role="alert"
+                                     th:if="${#fields.hasErrors('search')}"
+                                     th:errors="*{search}">Some error message
+                                </div>
+
+                                <input th:field="*{search}" class="form-control form-control-1-3" type="text"
+                                       name="search" id="search" th:value="*{search}" aria-required="true" />
+                                <input class="button" type="submit" th:value="#{search.value}">&nbsp;&nbsp;<a href="#" th:text="#{advanced.search}">Advanced search</a>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </form>
+        <br>
+        <input class="button button-secondary" type="button" th:value="#{create.new.customer.record}"/>
+    </div>
+</main>
+
+<div th:replace="fragments/footer :: footer">...</div>
+
+</body>
+</html>
+<script type="text/javascript">
+    function clearTableRows(tableId){
+        $('#' + tableId + ' tbody > tr').remove();
+        $('#number-' + tableId).html(0);
+    }
+</script>

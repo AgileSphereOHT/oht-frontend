@@ -111,13 +111,15 @@ dependencies {
     compile group: 'org.projectlombok', name: 'lombok-maven', version: '1.16.16.0'
     compile group: 'org.projectlombok', name: 'lombok', version: '1.16.16'
     compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-sleuth', version: '1.2.0.RELEASE'
-    runtime group: 'me.moocar', name: 'logback-gelf', version: '0.3'
     compile group: 'org.thymeleaf', name: 'thymeleaf', version: '3.0.5.RELEASE'
     compile group: 'org.thymeleaf', name: 'thymeleaf-spring4', version: '3.0.5.RELEASE'
     compile group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-springsecurity4', version: '3.0.2.RELEASE'
     compile group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-java8time', version: '3.0.0.RELEASE'
     compile group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-conditionalcomments', version: '2.1.2.RELEASE'
     compile group: 'nz.net.ultraq.thymeleaf', name: 'thymeleaf-layout-dialect', version: '2.2.1'
+    compile group: 'uk.doh.oht', name: 'oht-common', version: '1.0.0-SNAPSHOT'
+
+    runtime group: 'me.moocar', name: 'logback-gelf', version: '0.3'
 
     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test'
     testCompile group: 'org.springframework.security', name: 'spring-security-test', version: '4.2.2.RELEASE'
@@ -165,6 +167,7 @@ test {
 
 bootRun {
     addResources = true
+    jvmArgs = ['-Xdebug', '-Xrunjdwp:server=y,transport=dt_socket,address=4000,suspend=n']
 }
 
 springBoot {

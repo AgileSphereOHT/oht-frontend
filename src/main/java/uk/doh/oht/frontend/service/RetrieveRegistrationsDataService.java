@@ -9,11 +9,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestTemplate;
+import uk.doh.oht.db.domain.PendingRegistrationData;
+import uk.doh.oht.db.domain.RegistrationData;
+import uk.doh.oht.db.domain.SearchData;
+import uk.doh.oht.db.domain.UserWorkDetails;
 import uk.doh.oht.frontend.config.DataProperties;
-import uk.doh.oht.frontend.domain.PendingRegistrationData;
-import uk.doh.oht.frontend.domain.RegistrationData;
-import uk.doh.oht.frontend.domain.SearchData;
-import uk.doh.oht.frontend.domain.UserWorkDetails;
 
 
 import javax.inject.Inject;
@@ -77,6 +77,13 @@ public class RetrieveRegistrationsDataService {
         final HttpEntity<PendingRegistrationData> entity = new HttpEntity<>(pendingRegistrationData, new HttpHeaders());
         final ResponseEntity<Boolean> response = restTemplate.exchange(
                 dataProperties.buildRootPath() + "create-s1-request", HttpMethod.POST, entity, new ParameterizedTypeReference<Boolean>() {});
+        return response.getBody();
+    }
+
+    public String retrieveCountryDescription(final String countryCode) {
+        final HttpEntity<String> entity = new HttpEntity<>(null, new HttpHeaders());
+        final ResponseEntity<String> response = restTemplate.exchange(
+                dataProperties.buildRootPath() + "retrieve-country?countryCode=" + countryCode, HttpMethod.GET, entity, new ParameterizedTypeReference<String>() {});
         return response.getBody();
     }
 }

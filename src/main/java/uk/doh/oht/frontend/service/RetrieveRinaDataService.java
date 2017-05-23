@@ -11,8 +11,10 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestTemplate;
 import uk.doh.oht.frontend.config.RinaProperties;
 import uk.doh.oht.frontend.domain.CaseDefinition;
-import uk.doh.oht.frontend.domain.OpenCaseSearchResult;
-import uk.doh.oht.frontend.domain.bucs.BucData;
+import uk.doh.oht.rina.domain.OpenCaseSearchResult;
+import uk.doh.oht.rina.domain.bucs.BucData;
+import uk.doh.oht.rina.domain.documents.S072;
+import uk.doh.oht.rina.domain.documents.S073;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -61,6 +63,22 @@ public class RetrieveRinaDataService {
         final ResponseEntity<Map<String, Object>> response = restTemplate.exchange(
                 rinaProperties.buildRootPath() + "get-document/" + caseId + "/" + documentId, HttpMethod.GET, entity,
                 new ParameterizedTypeReference<Map<String, Object>>() {});
+        return response.getBody();
+    }
+
+    public S073 getS073Document(final String caseId, final String documentId) {
+        final HttpEntity<String> entity = new HttpEntity<>(null, new HttpHeaders());
+        final ResponseEntity<S073> response = restTemplate.exchange(
+                rinaProperties.buildRootPath() + "get-s073-document/" + caseId + "/" + documentId, HttpMethod.GET, entity,
+                new ParameterizedTypeReference<S073>() {});
+        return response.getBody();
+    }
+
+    public S072 getS072Document(final String caseId, final String documentId) {
+        final HttpEntity<String> entity = new HttpEntity<>(null, new HttpHeaders());
+        final ResponseEntity<S072> response = restTemplate.exchange(
+                rinaProperties.buildRootPath() + "get-s072-document/" + caseId + "/" + documentId, HttpMethod.GET, entity,
+                new ParameterizedTypeReference<S072>() {});
         return response.getBody();
     }
 

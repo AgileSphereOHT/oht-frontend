@@ -7,7 +7,9 @@ import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import uk.doh.oht.frontend.domain.RegistrationData;
+import uk.doh.oht.db.domain.RegistrationData;
+import uk.doh.oht.frontend.domain.SearchCustomerData;
+import uk.doh.oht.frontend.domain.SearchResults;
 import uk.doh.oht.frontend.service.SearchService;
 
 import javax.inject.Inject;
@@ -33,15 +35,27 @@ public class RegistrationRequestController {
         try {
             log.info("Enter getNextS1Request");
             //got to rina and get latest S073
-            List<RegistrationData> registrationData = searchService.searchForNextCase();
-            if (CollectionUtils.isEmpty(registrationData)) {
+            final SearchResults searchResults = searchService.searchForNextCase();
+            if (CollectionUtils.isEmpty(searchResults.getRegistrationDataList())) {
                 return "redirect:/request/s1-request";
             }
-            httpSession.setAttribute("S1RegistrationRequest", registrationData.get(0));
-            model.addAttribute("registration", registrationData.get(0));
-            return "registration/s1-registration-request";
+            return getNextPage(model, httpSession, searchResults);
         } finally {
             log.info("Exit getNextS1Request");
         }
+    }
+
+    private String getNextPage(final Model model, final HttpSession httpSession, final SearchResults searchResults) {
+        final List<RegistrationData> registrationDataList = searchResults.getRegistrationDataList();
+        if (registrationDataList.size() == 1) {
+            httpSession.setAttribute("S1RegistrationRequest", registrationDataList.get(0));
+            model.addAttribute("registration", registrationDataList.get(0));
+            return "registration/s1-registration-request";
+        }
+        httpSession.setAttribute("allPartialSearches", registrationDataList);
+        model.addAttribute("allPartialSearches", registrationDataList);
+        model.addAttribute("searchCustomerData", new SearchCustomerData());
+        model.addAttribute("currentSearchResult", searchResults.getOpenCaseSearchResult());
+        return "registration/s1-registration-search";
     }
 }

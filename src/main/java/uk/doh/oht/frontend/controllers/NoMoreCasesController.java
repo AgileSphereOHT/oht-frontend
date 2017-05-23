@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import uk.doh.oht.frontend.domain.UserWorkDetails;
+import uk.doh.oht.db.domain.UserWorkDetails;
 import uk.doh.oht.frontend.service.RetrieveRegistrationsDataService;
 
 import javax.inject.Inject;
