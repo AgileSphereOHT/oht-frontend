@@ -8,15 +8,14 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 import uk.doh.oht.frontend.config.RinaProperties;
 import uk.doh.oht.frontend.domain.CaseDefinition;
 import uk.doh.oht.rina.domain.OpenCaseSearchResult;
 import uk.doh.oht.rina.domain.bucs.BucData;
+import uk.doh.oht.rina.domain.documents.S072;
+import uk.doh.oht.rina.domain.documents.S073;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -97,5 +96,29 @@ public class RetrieveRinaDataServiceTest {
         given(restTemplate.exchange(anyString(), Mockito.<HttpMethod> any(), Mockito.<HttpEntity<String>> any(), Matchers.<ParameterizedTypeReference<List<OpenCaseSearchResult>>> any())).willReturn(responseEntity);
         final List<OpenCaseSearchResult> openCases = retrieveRinaDataService.searchForNextCase();
         assertThat(openCaseSearchResultList, is(openCases));
+    }
+
+    @Test
+    public void testGetS073Document() throws Exception {
+        final S073 s073 = new S073();
+        s073.setSedGVer(1);
+        s073.setSedPackage("Sector");
+        final ResponseEntity<S073> responseEntity = new ResponseEntity(s073, HttpStatus.OK);
+        given(restTemplate.exchange(anyString(), Mockito.<HttpMethod> any(), Mockito.<HttpEntity<String>> any(), Matchers.<ParameterizedTypeReference<S073>> any())).willReturn(responseEntity);
+        final S073 data = retrieveRinaDataService.getS073Document(CASE_ID_VALUE, DOCUMENT_ID_VALUE);
+        assertThat(data.getSedGVer(), is(1));
+        assertThat(data.getSedPackage(), is("Sector"));
+    }
+
+    @Test
+    public void testGetS072Document() throws Exception {
+        final S072 s072 = new S072();
+        s072.setSedGVer(1);
+        s072.setSedPackage("Sector");
+        final ResponseEntity<S072> responseEntity = new ResponseEntity(s072, HttpStatus.OK);
+        given(restTemplate.exchange(anyString(), Mockito.<HttpMethod> any(), Mockito.<HttpEntity<String>> any(), Matchers.<ParameterizedTypeReference<S072>> any())).willReturn(responseEntity);
+        final S072 data = retrieveRinaDataService.getS072Document(CASE_ID_VALUE, DOCUMENT_ID_VALUE);
+        assertThat(data.getSedGVer(), is(1));
+        assertThat(data.getSedPackage(), is("Sector"));
     }
 }

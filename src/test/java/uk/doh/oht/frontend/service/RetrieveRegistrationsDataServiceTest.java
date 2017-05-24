@@ -100,4 +100,13 @@ public class RetrieveRegistrationsDataServiceTest {
         final Boolean response = retrieveRegistrationsDataService.createS1Request(pendingRegistrationData);
         assertThat(Boolean.TRUE, is(response));
     }
+
+    @Test
+    public void testRetrieveCountryDescription() throws Exception {
+        final ResponseEntity<String> responseEntity = new ResponseEntity("Spain", HttpStatus.OK);
+        given(restTemplate.exchange(anyString(), Mockito.<HttpMethod> any(), Mockito.<HttpEntity<String>> any(), Matchers.<ParameterizedTypeReference<String>> any())).willReturn(responseEntity);
+
+        final String response = retrieveRegistrationsDataService.retrieveCountryDescription("ES");
+        assertThat("Spain", is(response));
+    }
 }
