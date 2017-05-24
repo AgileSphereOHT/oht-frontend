@@ -19,6 +19,15 @@
     <div th:replace="fragments/alpha-banner :: alpha-banner">...</div>
     <div class="column-three-thirds">
         <h1 class="heading-large"><span th:text="#{register.an.s1}">Register an S1 form</span><span class="heading-secondary"></span></h1>
+
+        <div th:object="${customerSearchData}">
+            <div class="error-summary validation-summary" th:if="${#fields.hasErrors('*')}">
+                <p th:text="#{error.summary}" data-bsaid="errorSummary">
+                    Errors exist on this page, fix them.
+                </p>
+            </div>
+        </div>
+
         <h3 class="heading-small" th:text="#{customer.details}">Customer Details</h3>
         <div class="s1info">
             <table class="table-font-xsmall">
