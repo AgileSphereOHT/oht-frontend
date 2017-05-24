@@ -8,9 +8,10 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import uk.doh.oht.db.domain.RegistrationData;
-import uk.doh.oht.frontend.domain.SearchCustomerData;
+import uk.doh.oht.frontend.domain.CustomerSearchData;
 import uk.doh.oht.frontend.domain.SearchResults;
 import uk.doh.oht.frontend.service.SearchService;
+import uk.doh.oht.frontend.utils.OHTFrontendConstants;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
@@ -52,10 +53,11 @@ public class RegistrationRequestController {
             model.addAttribute("registration", registrationDataList.get(0));
             return "registration/s1-registration-request";
         }
-        httpSession.setAttribute("allPartialSearches", registrationDataList);
-        model.addAttribute("allPartialSearches", registrationDataList);
-        model.addAttribute("searchCustomerData", new SearchCustomerData());
-        model.addAttribute("currentSearchResult", searchResults.getOpenCaseSearchResult());
+        httpSession.setAttribute(OHTFrontendConstants.PARTIAL_SEARCH_RESULTS, registrationDataList);
+        httpSession.setAttribute(OHTFrontendConstants.CURRENT_INCOMING_SEARCH_RESULT, searchResults.getOpenCaseSearchResult());
+        model.addAttribute(OHTFrontendConstants.PARTIAL_SEARCH_RESULTS, registrationDataList);
+        model.addAttribute(OHTFrontendConstants.CUSTOMER_SEARCH_DATA, new CustomerSearchData());
+        model.addAttribute(OHTFrontendConstants.CURRENT_INCOMING_SEARCH_RESULT, searchResults.getOpenCaseSearchResult());
         return "registration/s1-registration-search";
     }
 }

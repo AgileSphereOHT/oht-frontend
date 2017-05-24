@@ -6,12 +6,11 @@ import org.springframework.util.CollectionUtils;
 import org.thymeleaf.util.StringUtils;
 import uk.doh.oht.db.domain.RegistrationData;
 import uk.doh.oht.db.domain.SearchData;
-import uk.doh.oht.frontend.domain.SearchCustomerData;
+import uk.doh.oht.frontend.domain.CustomerSearchData;
 import uk.doh.oht.frontend.domain.SearchResults;
 import uk.doh.oht.rina.domain.OpenCaseSearchResult;
 import uk.doh.oht.rina.domain.bucs.BucData;
 import uk.doh.oht.rina.domain.bucs.Document;
-import uk.doh.oht.rina.domain.documents.Address;
 import uk.doh.oht.rina.domain.documents.S072;
 import uk.doh.oht.rina.domain.documents.S073;
 import uk.doh.oht.validation.StartDateFormDate;
@@ -29,6 +28,8 @@ import static java.util.stream.Collectors.toList;
 @Slf4j
 @Service
 public class SearchService {
+    private final static String S072_DOCUMENT_NAME = "S072";
+    private final static String S073_DOCUMENT_NAME = "S073";
     private final RetrieveRegistrationsDataService retrieveRegistrationsDataService;
     private final RetrieveRinaDataService retrieveRinaDataService;
 
@@ -53,13 +54,13 @@ public class SearchService {
         return searchResults;
     }
 
-    public SearchResults searchForNextCase(final SearchCustomerData searchCustomerData, final OpenCaseSearchResult currentOpenCaseSearchResult) {
+    public SearchResults searchForNextCase(final CustomerSearchData customerSearchData, final OpenCaseSearchResult currentOpenCaseSearchResult) {
         List<RegistrationData> registrationDataList = new ArrayList<>();
         final SearchResults searchResults = new SearchResults();
         searchResults.setRegistrationDataList(registrationDataList);
 
         for (final OpenCaseSearchResult openCaseSearchResult : Arrays.asList(currentOpenCaseSearchResult)) {
-            registrationDataList = retrieveRegistrationsDataService.searchForNextCase(createSearchDataList(searchCustomerData));
+            registrationDataList = retrieveRegistrationsDataService.searchForNextCase(createSearchDataList(openCaseSearchResult.getTraits().getCaseId(), customerSearchData));
             if (setSearchResults(registrationDataList, searchResults, openCaseSearchResult)) {
                 break;
             }
@@ -67,9 +68,9 @@ public class SearchService {
         return searchResults;
     }
 
-    private List<SearchData> createSearchDataList(final SearchCustomerData searchCustomerData) {
-        final String[] searchFields = searchCustomerData.getSearch().split(",");
-        final SearchData searchData = new SearchData();
+    private List<SearchData> createSearchDataList(final String caseId, final CustomerSearchData customerSearchData) {
+        final String[] searchFields = customerSearchData.getSearch().split(",");
+        final SearchData searchData = SearchData.builder().caseId(caseId).build();
         if (searchFields.length >= 1) {
             searchData.setFirstName(searchFields[0]);
         }
@@ -151,7 +152,7 @@ public class SearchService {
 
     private void setS073DocumentDataInSearchResult(final BucData bucData, final OpenCaseSearchResult openCaseSearchResult) {
         for (final Document document : bucData.getDocuments()) {
-            if ("S073".equalsIgnoreCase(document.getType())) {
+            if (S073_DOCUMENT_NAME.equalsIgnoreCase(document.getType())) {
                 final S073 s073 = retrieveRinaDataService.getS073Document(bucData.getId(), document.getId());
                 openCaseSearchResult.getTraits().setAddress(s073.getAddress().getAddress());
                 openCaseSearchResult.getTraits().setGender(StringUtils.capitalize(s073.getPerson().getPersonIdentification().getSex()));
@@ -161,7 +162,7 @@ public class SearchService {
 
     private Boolean setS072DocumentDataInSearchResult(final BucData bucData, final OpenCaseSearchResult openCaseSearchResult) {
         for (final Document document : bucData.getDocuments()) {
-            if ("S072".equalsIgnoreCase(document.getType())) {
+            if (S072_DOCUMENT_NAME.equalsIgnoreCase(document.getType())) {
                 final S072 s072 = retrieveRinaDataService.getS072Document(bucData.getId(), document.getId());
                 openCaseSearchResult.getTraits().setAddress(s072.getPersonAddress().getAddress());
                 openCaseSearchResult.getTraits().setGender(StringUtils.capitalize(s072.getPerson().getPersonIdentification().getSex()));

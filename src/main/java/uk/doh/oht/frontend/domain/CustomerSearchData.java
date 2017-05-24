@@ -6,7 +6,7 @@ import lombok.Data;
  * Created by peterwhitehead on 23/05/2017.
  */
 @Data
-public class SearchCustomerData {
+public class CustomerSearchData {
     private String searchSelected;
     private String search;
 }

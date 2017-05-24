@@ -50,7 +50,6 @@
       // Show content
       if ($content.hasClass('js-hidden')) {
         $content.removeClass('js-hidden')
-        $content.removeClass('hidden')
         $content.attr('aria-hidden', 'false')
 
         // If the controlling input, update aria-expanded
@@ -68,7 +67,6 @@
       if (!$content.hasClass('js-hidden')) {
         clearDownStreamInputs($control);
         $content.addClass('js-hidden')
-        $content.addClass('hidden')
         $content.attr('aria-hidden', 'true')
 
         // If the controlling input, update aria-expanded
