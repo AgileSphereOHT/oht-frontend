@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import uk.doh.oht.db.domain.UserWorkDetails;
 import uk.doh.oht.frontend.service.RetrieveRegistrationsDataService;
+import uk.doh.oht.frontend.utils.OHTFrontendConstants;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.anyString;
@@ -60,6 +61,6 @@ public class NoMoreCasesControllerTest {
                 .andExpect(handler().methodName("getNoMoreCasesInQueue"))
                 .andExpect(handler().handlerType(NoMoreCasesController.class))
                 .andExpect(status().is2xxSuccessful())
-                .andExpect(model().attribute("details", userWorkDetails));
+                .andExpect(model().attribute(OHTFrontendConstants.DETAILS, userWorkDetails));
     }
 }

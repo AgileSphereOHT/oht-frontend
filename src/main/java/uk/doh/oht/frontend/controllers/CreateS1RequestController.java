@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import uk.doh.oht.db.domain.PendingRegistrationData;
 import uk.doh.oht.db.domain.UserWorkDetails;
 import uk.doh.oht.frontend.service.RetrieveRegistrationsDataService;
+import uk.doh.oht.frontend.utils.OHTFrontendConstants;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
@@ -37,7 +38,7 @@ public class CreateS1RequestController {
 
         final PendingRegistrationData oldPendingRegistrationData =
                 (PendingRegistrationData)httpSession.getAttribute(S1_PENDING_REGISTRATION_REQUEST);
-        model.addAttribute("details", createWorkDetails(oldPendingRegistrationData));
+        model.addAttribute(OHTFrontendConstants.DETAILS, createWorkDetails(oldPendingRegistrationData));
         httpSession.removeAttribute(S1_PENDING_REGISTRATION_REQUEST);
 
         log.info("Exit getS1RequestConfirmation");

@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import uk.doh.oht.db.domain.PendingRegistrationData;
 import uk.doh.oht.db.domain.UserWorkDetails;
 import uk.doh.oht.frontend.service.RetrieveRegistrationsDataService;
+import uk.doh.oht.frontend.utils.OHTFrontendConstants;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.anyString;
@@ -67,7 +68,7 @@ public class CreateS1RequestControllerTest {
                 .andExpect(handler().methodName("getS1RequestCreated"))
                 .andExpect(handler().handlerType(CreateS1RequestController.class))
                 .andExpect(status().is2xxSuccessful())
-                .andExpect(model().attribute("details", userWorkDetails));
+                .andExpect(model().attribute(OHTFrontendConstants.DETAILS, userWorkDetails));
     }
 
     @Test

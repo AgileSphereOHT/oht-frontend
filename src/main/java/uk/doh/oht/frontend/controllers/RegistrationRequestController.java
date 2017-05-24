@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import uk.doh.oht.db.domain.RegistrationData;
 import uk.doh.oht.frontend.domain.CustomerSearchData;
 import uk.doh.oht.frontend.domain.SearchResults;
@@ -49,7 +50,7 @@ public class RegistrationRequestController {
     private String getNextPage(final Model model, final HttpSession httpSession, final SearchResults searchResults) {
         final List<RegistrationData> registrationDataList = searchResults.getRegistrationDataList();
         if (registrationDataList.size() == 1) {
-            httpSession.setAttribute("S1RegistrationRequest", registrationDataList.get(0));
+            httpSession.setAttribute(OHTFrontendConstants.S1_REGISTRATION_REQUEST, registrationDataList.get(0));
             model.addAttribute("registration", registrationDataList.get(0));
             return "registration/s1-registration-request";
         }
@@ -59,5 +60,24 @@ public class RegistrationRequestController {
         model.addAttribute(OHTFrontendConstants.CUSTOMER_SEARCH_DATA, new CustomerSearchData());
         model.addAttribute(OHTFrontendConstants.CURRENT_INCOMING_SEARCH_RESULT, searchResults.getOpenCaseSearchResult());
         return "registration/s1-registration-search";
+    }
+
+    @GetMapping(value = "/get-s1-registration", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public String getS1Registration(@RequestParam final Long registrationId, final Model model, final HttpSession httpSession) {
+        try {
+            log.info("getS1Registration getS1Registration");
+            final List<RegistrationData> registrationDataList =
+                    (List<RegistrationData>)httpSession.getAttribute(OHTFrontendConstants.PARTIAL_SEARCH_RESULTS);
+            for (final RegistrationData registrationData : registrationDataList) {
+                if (registrationData.getRegistrationId() == registrationId) {
+                    httpSession.setAttribute(OHTFrontendConstants.S1_REGISTRATION_REQUEST, registrationData);
+                    model.addAttribute("registration", registrationData);
+                    break;
+                }
+            }
+            return "registration/s1-registration-request";
+        } finally {
+            log.info("Exit getS1Registration");
+        }
     }
 }

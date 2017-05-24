@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -12,12 +13,14 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import uk.doh.oht.db.domain.RegistrationData;
 import uk.doh.oht.frontend.domain.SearchResults;
 import uk.doh.oht.frontend.service.SearchService;
+import uk.doh.oht.frontend.utils.OHTFrontendConstants;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.handler;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -26,9 +29,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 public class RegistrationRequestControllerTest {
+    private final MockHttpSession session = new MockHttpSession();
     private MockMvc mockMvc;
 
     private final List<RegistrationData> listData = new ArrayList<>();
+    private final RegistrationData registrationData = new RegistrationData();
     private SearchResults searchResults;
 
     @Mock
@@ -40,7 +45,8 @@ public class RegistrationRequestControllerTest {
                 .standaloneSetup(new RegistrationRequestController(searchService))
                 .setViewResolvers(new StandaloneMvcTestViewResolver())
                 .build();
-        final RegistrationData registrationData = new RegistrationData();
+
+        registrationData.setRegistrationId(1l);
         registrationData.setCountry("UK");
         listData.add(registrationData);
         searchResults = new SearchResults();
@@ -55,5 +61,18 @@ public class RegistrationRequestControllerTest {
                 .andExpect(handler().methodName("getNextS1Request"))
                 .andExpect(handler().handlerType(RegistrationRequestController.class))
                 .andExpect(status().is2xxSuccessful());
+    }
+
+    @Test
+    public void testGetS1Registration() throws Exception {
+        session.setAttribute(OHTFrontendConstants.PARTIAL_SEARCH_RESULTS, listData);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/registration/get-s1-registration")
+                .param("registrationId", "1")
+                .session(session))
+                .andExpect(handler().methodName("getS1Registration"))
+                .andExpect(handler().handlerType(RegistrationRequestController.class))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(model().attribute("registration", registrationData));
     }
 }

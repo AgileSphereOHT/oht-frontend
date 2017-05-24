@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import uk.doh.oht.db.domain.RegistrationData;
 import uk.doh.oht.db.domain.UserWorkDetails;
 import uk.doh.oht.frontend.service.RetrieveRegistrationsDataService;
+import uk.doh.oht.frontend.utils.OHTFrontendConstants;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
@@ -23,7 +24,6 @@ import javax.servlet.http.HttpSession;
 @Slf4j
 @RequestMapping("/registration")
 public class RegistrationConfirmationController {
-    private final static String S1_REGISTRATION_REQUEST = "S1RegistrationRequest";
     private final RetrieveRegistrationsDataService retrieveRegistrationsDataService;
 
     @Inject
@@ -35,9 +35,9 @@ public class RegistrationConfirmationController {
     public String getS1RequestConfirmation(final Model model, final HttpSession httpSession) {
         log.info("Enter getS1RequestConfirmation");
 
-        final RegistrationData oldRegistrationData = (RegistrationData)httpSession.getAttribute(S1_REGISTRATION_REQUEST);
-        model.addAttribute("details", createConfirmationDetails(oldRegistrationData));
-        httpSession.removeAttribute(S1_REGISTRATION_REQUEST);
+        final RegistrationData oldRegistrationData = (RegistrationData)httpSession.getAttribute(OHTFrontendConstants.S1_REGISTRATION_REQUEST);
+        model.addAttribute(OHTFrontendConstants.DETAILS, createConfirmationDetails(oldRegistrationData));
+        httpSession.removeAttribute(OHTFrontendConstants.S1_REGISTRATION_REQUEST);
 
         log.info("Exit getS1RequestConfirmation");
         return "registration/s1-registration-confirmation";
@@ -47,7 +47,8 @@ public class RegistrationConfirmationController {
     public String confirmRegistration(final RegistrationData registrationData, final Model model, final HttpSession httpSession) {
         log.info("Enter confirmRegistration");
 
-        final RegistrationData oldRegistrationData = (RegistrationData)httpSession.getAttribute(S1_REGISTRATION_REQUEST);
+        final RegistrationData oldRegistrationData =
+                (RegistrationData)httpSession.getAttribute(OHTFrontendConstants.S1_REGISTRATION_REQUEST);
         oldRegistrationData.setStartDate(registrationData.getStartDate());
         oldRegistrationData.setModifiedByUserId(
                 ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());

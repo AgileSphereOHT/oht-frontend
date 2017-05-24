@@ -23,9 +23,9 @@
                 <td class="text" th:text="${partial.userDetails.gender}">Male</td>
                 <td class="text" th:text="${#dates.format(partial.userDetails.dateOfBirth, 'dd MMMMMMM yyyy')}">26 February 1952</td>
                 <td class="text" th:text="${partial.userDetails.nino}">JC 34 43 45 C</td>
-                <td th:if="${#lists.size(partial.addresses) == 0}" class="text"></td>
-                <td th:if="${#lists.size(partial.addresses) != 0}" class="text" th:utext="${partial.currentAddress}"></td>
-                <td class="text"><a href="S1RegistrationRequest.html" th:text="#{search.results.select}">Select</a></td>
+                <td class="text" th:if="${#lists.size(partial.addresses) == 0}"></td>
+                <td class="text" th:if="${#lists.size(partial.addresses) != 0}" th:utext="${partial.currentAddress}"></td>
+                <td class="text"><a th:href="${'get-s1-registration?registrationId=' + partial.registrationId}" th:text="#{search.results.select}">Select</a></td>
             </tr>
         </tbody>
     </table>

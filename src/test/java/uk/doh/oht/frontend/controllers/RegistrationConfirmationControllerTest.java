@@ -17,6 +17,7 @@ import uk.doh.oht.db.domain.RegistrationData;
 import uk.doh.oht.db.domain.UserDetails;
 import uk.doh.oht.db.domain.UserWorkDetails;
 import uk.doh.oht.frontend.service.RetrieveRegistrationsDataService;
+import uk.doh.oht.frontend.utils.OHTFrontendConstants;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.anyString;
@@ -77,6 +78,6 @@ public class RegistrationConfirmationControllerTest {
                 .andExpect(handler().methodName("getS1RequestConfirmation"))
                 .andExpect(handler().handlerType(RegistrationConfirmationController.class))
                 .andExpect(status().is2xxSuccessful())
-                .andExpect(model().attribute("details", userWorkDetails));
+                .andExpect(model().attribute(OHTFrontendConstants.DETAILS, userWorkDetails));
     }
 }

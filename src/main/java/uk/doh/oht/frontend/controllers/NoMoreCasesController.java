@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import uk.doh.oht.db.domain.UserWorkDetails;
 import uk.doh.oht.frontend.service.RetrieveRegistrationsDataService;
+import uk.doh.oht.frontend.utils.OHTFrontendConstants;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
@@ -30,7 +31,7 @@ public class NoMoreCasesController {
     public String getNoMoreCasesInQueue(final Model model, final HttpSession httpSession) {
         log.info("Enter getNoMoreCasesInQueue");
 
-        model.addAttribute("details", createWorkDetails());
+        model.addAttribute(OHTFrontendConstants.DETAILS, createWorkDetails());
 
         log.info("Exit getNoMoreCasesInQueue");
         return "no-more-cases-in-queue";
