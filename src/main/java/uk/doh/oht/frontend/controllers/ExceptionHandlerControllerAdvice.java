@@ -13,7 +13,7 @@ public class ExceptionHandlerControllerAdvice {
 
     @ExceptionHandler(Exception.class)
     public String handleException(final Exception exception) {
-        log.error("Unrecoverable error - " + exception.getMessage(), exception);
+        log.error("Unrecoverable error: {}", exception.getMessage(), exception);
         return "error";
     }
 }

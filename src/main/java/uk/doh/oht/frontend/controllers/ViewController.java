@@ -30,16 +30,25 @@ public class ViewController {
 
     @GetMapping
     public ModelAndView getAllCases() {
-        final List<CaseDefinition> allCases = retrieveRinaDataService.getAllCases();
         ModelAndView modelAndView = new ModelAndView("view");
-        modelAndView.addObject("allCases", allCases);
+        try {
+            log.info("Enter getAllCases");
+            final List<CaseDefinition> allCases = retrieveRinaDataService.getAllCases();
+            modelAndView.addObject("allCases", allCases);
+        } finally {
+            log.info("Exit getAllCases");
+        }
         return modelAndView;
     }
 
     @GetMapping(value = "case/{caseId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public String getCase(@PathVariable("caseId") final String caseId,
-                          final Model model) {
-        model.addAttribute("case", retrieveRinaDataService.getCase(caseId));
+    public String getCase(@PathVariable("caseId") final String caseId, final Model model) {
+        try {
+            log.info("Enter getCase");
+            model.addAttribute("case", retrieveRinaDataService.getCase(caseId));
+        } finally {
+            log.info("Exit getCase");
+        }
         return "caseResult :: resultsList";
     }
 
@@ -47,7 +56,12 @@ public class ViewController {
     public String getDocument(@PathVariable("caseId") final String caseId,
                               @PathVariable("documentId") final String documentId,
                               final Model model) {
-        model.addAttribute("document", retrieveRinaDataService.getDocument(caseId, documentId));
+        try {
+            log.info("Enter getDocument");
+            model.addAttribute("document", retrieveRinaDataService.getDocument(caseId, documentId));
+        } finally {
+            log.info("Exit getDocument");
+        }
         return "documentResult :: resultsList";
     }
 }

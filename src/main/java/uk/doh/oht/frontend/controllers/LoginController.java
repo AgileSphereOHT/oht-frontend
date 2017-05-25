@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class LoginController {
     @GetMapping("/login")
     public String getLoginPage() {
-        log.debug("Login page viewed");
+        log.info("Login page viewed");
         return "login";
     }
 }

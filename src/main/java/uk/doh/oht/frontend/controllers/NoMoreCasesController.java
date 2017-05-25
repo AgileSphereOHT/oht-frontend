@@ -38,8 +38,13 @@ public class NoMoreCasesController {
     }
 
     private UserWorkDetails createWorkDetails() {
-        final String userName =
-                ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
-        return retrieveRegistrationsDataService.retrieveUserWorkData(userName, null);
+        try {
+            log.info("Enter createWorkDetails");
+            final String userName =
+                    ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
+            return retrieveRegistrationsDataService.retrieveUserWorkData(userName, null);
+        } finally {
+            log.info("Exit createWorkDetails");
+        }
     }
 }

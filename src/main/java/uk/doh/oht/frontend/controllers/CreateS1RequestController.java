@@ -34,33 +34,38 @@ public class CreateS1RequestController {
 
     @GetMapping(value = "/s1-request-created", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String getS1RequestCreated(final Model model, final HttpSession httpSession) {
-        log.info("Enter getS1RequestCreated");
+        try {
+            log.info("Enter getS1RequestCreated");
 
-        final PendingRegistrationData oldPendingRegistrationData =
-                (PendingRegistrationData)httpSession.getAttribute(S1_PENDING_REGISTRATION_REQUEST);
-        model.addAttribute(OHTFrontendConstants.DETAILS, createWorkDetails(oldPendingRegistrationData));
-        httpSession.removeAttribute(S1_PENDING_REGISTRATION_REQUEST);
-
-        log.info("Exit getS1RequestConfirmation");
+            final PendingRegistrationData oldPendingRegistrationData =
+                    (PendingRegistrationData) httpSession.getAttribute(S1_PENDING_REGISTRATION_REQUEST);
+            model.addAttribute(OHTFrontendConstants.DETAILS, createWorkDetails(oldPendingRegistrationData));
+            httpSession.removeAttribute(S1_PENDING_REGISTRATION_REQUEST);
+        } finally {
+            log.info("Exit getS1RequestConfirmation");
+        }
         return "request/s1-request-created";
     }
 
     @PostMapping(value = "/create-s1-request", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String createS1Request(final PendingRegistrationData pendingRegistrationData, final Model model, final HttpSession httpSession) {
-        log.info("Enter getS1RequestCreated");
+        try {
+            log.info("Enter getS1RequestCreated");
 
-        final PendingRegistrationData oldPendingRegistrationData =
-                (PendingRegistrationData)httpSession.getAttribute(S1_PENDING_REGISTRATION_REQUEST);
-        oldPendingRegistrationData.setStartDate(pendingRegistrationData.getStartDate());
-        oldPendingRegistrationData.setModifiedByUserId(
-                ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
-        retrieveRegistrationsDataService.createS1Request(oldPendingRegistrationData);
-
-        log.info("Exit createS1Request");
+            final PendingRegistrationData oldPendingRegistrationData =
+                    (PendingRegistrationData) httpSession.getAttribute(S1_PENDING_REGISTRATION_REQUEST);
+            oldPendingRegistrationData.setStartDate(pendingRegistrationData.getStartDate());
+            oldPendingRegistrationData.setModifiedByUserId(
+                    ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
+            retrieveRegistrationsDataService.createS1Request(oldPendingRegistrationData);
+        } finally {
+            log.info("Exit createS1Request");
+        }
         return "redirect:/request/s1-request-created";
     }
 
     private UserWorkDetails createWorkDetails(final PendingRegistrationData pendingRegistrationData) {
+        log.info("Enter createWorkDetails");
         return retrieveRegistrationsDataService.retrieveUserWorkData(
                 pendingRegistrationData.getModifiedByUserId(),
                 pendingRegistrationData.getFirstName() + " " + pendingRegistrationData.getLastName());

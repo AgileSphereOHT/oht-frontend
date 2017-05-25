@@ -48,23 +48,28 @@ public class RegistrationRequestController {
     }
 
     private String getNextPage(final Model model, final HttpSession httpSession, final SearchResults searchResults) {
-        final List<RegistrationData> registrationDataList = searchResults.getRegistrationDataList();
-        if (registrationDataList.size() == 1) {
-            httpSession.setAttribute(OHTFrontendConstants.S1_REGISTRATION_REQUEST, registrationDataList.get(0));
-            return "redirect:/registration/s1-registration";
+        try {
+            log.info("Enter getNextPage");
+            final List<RegistrationData> registrationDataList = searchResults.getRegistrationDataList();
+            if (registrationDataList.size() == 1) {
+                httpSession.setAttribute(OHTFrontendConstants.S1_REGISTRATION_REQUEST, registrationDataList.get(0));
+                return "redirect:/registration/s1-registration";
+            }
+            httpSession.setAttribute(OHTFrontendConstants.PARTIAL_SEARCH_RESULTS, registrationDataList);
+            httpSession.setAttribute(OHTFrontendConstants.CURRENT_INCOMING_SEARCH_RESULT, searchResults.getOpenCaseSearchResult());
+            model.addAttribute(OHTFrontendConstants.PARTIAL_SEARCH_RESULTS, registrationDataList);
+            model.addAttribute(OHTFrontendConstants.CUSTOMER_SEARCH_DATA, new CustomerSearchData());
+            model.addAttribute(OHTFrontendConstants.CURRENT_INCOMING_SEARCH_RESULT, searchResults.getOpenCaseSearchResult());
+        } finally {
+            log.info("Exit getNextPage");
         }
-        httpSession.setAttribute(OHTFrontendConstants.PARTIAL_SEARCH_RESULTS, registrationDataList);
-        httpSession.setAttribute(OHTFrontendConstants.CURRENT_INCOMING_SEARCH_RESULT, searchResults.getOpenCaseSearchResult());
-        model.addAttribute(OHTFrontendConstants.PARTIAL_SEARCH_RESULTS, registrationDataList);
-        model.addAttribute(OHTFrontendConstants.CUSTOMER_SEARCH_DATA, new CustomerSearchData());
-        model.addAttribute(OHTFrontendConstants.CURRENT_INCOMING_SEARCH_RESULT, searchResults.getOpenCaseSearchResult());
         return "registration/s1-registration-search";
     }
 
     @GetMapping(value = "/get-s1-registration", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String getS1Registration(@RequestParam final Long registrationId, final Model model, final HttpSession httpSession) {
         try {
-            log.info("getS1Registration getS1Registration");
+            log.info("getS1Registration");
             final List<RegistrationData> registrationDataList =
                     (List<RegistrationData>) httpSession.getAttribute(OHTFrontendConstants.PARTIAL_SEARCH_RESULTS);
             for (final RegistrationData registrationData : registrationDataList) {
@@ -81,8 +86,10 @@ public class RegistrationRequestController {
 
     @GetMapping(value = "/s1-registration", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String s1Registration(final Model model, final HttpSession httpSession){
+        log.info("Enter s1Registration");
         model.addAttribute("registration", httpSession.getAttribute(OHTFrontendConstants.S1_REGISTRATION_REQUEST));
         httpSession.removeAttribute(OHTFrontendConstants.S1_REGISTRATION_REQUEST);
+        log.info("Exit s1Registration");
         return "registration/s1-registration";
     }
 }

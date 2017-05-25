@@ -36,54 +36,90 @@ public class RetrieveRegistrationsDataService {
     }
 
     public List<RegistrationData> searchForNextCase(final List<SearchData> searchData) {
-        final HttpEntity<List<SearchData>> entity = new HttpEntity<>(searchData, new HttpHeaders());
-        final ResponseEntity<List<RegistrationData>> response = restTemplate.exchange(
-                dataProperties.buildRootPath() + "retrieve-registrations", HttpMethod.POST, entity, new ParameterizedTypeReference<List<RegistrationData>>() {});
-        List<RegistrationData> data = response.getBody();
-        if (CollectionUtils.isEmpty(data)) {
-            return new ArrayList<>();
+        try {
+            log.info("Enter searchForNextCase");
+            final HttpEntity<List<SearchData>> entity = new HttpEntity<>(searchData, new HttpHeaders());
+            final ResponseEntity<List<RegistrationData>> response = restTemplate.exchange(
+                    dataProperties.buildRootPath() + "retrieve-registrations", HttpMethod.POST, entity, new ParameterizedTypeReference<List<RegistrationData>>() {
+                    });
+            List<RegistrationData> data = response.getBody();
+            if (CollectionUtils.isEmpty(data)) {
+                return new ArrayList<>();
+            }
+            return response.getBody();
+        } finally {
+            log.info("Exit searchForNextCase");
         }
-        return response.getBody();
     }
 
     public List<PendingRegistrationData> getPendingS1Requests() {
-        final HttpEntity<String> entity = new HttpEntity<>(null, new HttpHeaders());
-        final ResponseEntity<List<PendingRegistrationData>> response = restTemplate.exchange(
-                dataProperties.buildRootPath() + "retrieve-pending-registrations", HttpMethod.POST, entity, new ParameterizedTypeReference<List<PendingRegistrationData>>() {});
-        List<PendingRegistrationData> data = response.getBody();
-        if (CollectionUtils.isEmpty(data)) {
-            return new ArrayList<>();
+        try {
+            log.info("Enter getPendingS1Requests");
+            final HttpEntity<String> entity = new HttpEntity<>(null, new HttpHeaders());
+            final ResponseEntity<List<PendingRegistrationData>> response = restTemplate.exchange(
+                    dataProperties.buildRootPath() + "retrieve-pending-registrations", HttpMethod.POST, entity, new ParameterizedTypeReference<List<PendingRegistrationData>>() {
+                    });
+            List<PendingRegistrationData> data = response.getBody();
+            if (CollectionUtils.isEmpty(data)) {
+                return new ArrayList<>();
+            }
+            return response.getBody();
+        } finally {
+            log.info("Exit getPendingS1Requests");
         }
-        return response.getBody();
     }
 
     public Boolean updateRegistrationData(final RegistrationData registrationData) {
-        final HttpEntity<RegistrationData> entity = new HttpEntity<>(registrationData, new HttpHeaders());
-        final ResponseEntity<Boolean> response = restTemplate.exchange(
-                dataProperties.buildRootPath() + "update-registration", HttpMethod.POST, entity, new ParameterizedTypeReference<Boolean>() {});
-        return response.getBody();
+        try {
+            log.info("Enter updateRegistrationData");
+            final HttpEntity<RegistrationData> entity = new HttpEntity<>(registrationData, new HttpHeaders());
+            final ResponseEntity<Boolean> response = restTemplate.exchange(
+                    dataProperties.buildRootPath() + "update-registration", HttpMethod.POST, entity, new ParameterizedTypeReference<Boolean>() {
+                    });
+            return response.getBody();
+        } finally {
+            log.info("Exit updateRegistrationData");
+        }
     }
 
     public UserWorkDetails retrieveUserWorkData(final String userName, final String fullName) {
-        final HttpEntity<String> entity = new HttpEntity<>(userName, new HttpHeaders());
-        final ResponseEntity<UserWorkDetails> response = restTemplate.exchange(
-                dataProperties.buildRootPath() + "retrieve-user-work-details", HttpMethod.POST, entity, new ParameterizedTypeReference<UserWorkDetails>() {});
-        final UserWorkDetails userWorkDetails = response.getBody();
-        userWorkDetails.setUserFullName(fullName);
-        return userWorkDetails;
+        try {
+            log.info("Enter retrieveUserWorkData");
+            final HttpEntity<String> entity = new HttpEntity<>(userName, new HttpHeaders());
+            final ResponseEntity<UserWorkDetails> response = restTemplate.exchange(
+                    dataProperties.buildRootPath() + "retrieve-user-work-details", HttpMethod.POST, entity, new ParameterizedTypeReference<UserWorkDetails>() {
+                    });
+            final UserWorkDetails userWorkDetails = response.getBody();
+            userWorkDetails.setUserFullName(fullName);
+            return userWorkDetails;
+        } finally {
+            log.info("Exit retrieveUserWorkData");
+        }
     }
 
     public Boolean createS1Request(final PendingRegistrationData pendingRegistrationData) {
-        final HttpEntity<PendingRegistrationData> entity = new HttpEntity<>(pendingRegistrationData, new HttpHeaders());
-        final ResponseEntity<Boolean> response = restTemplate.exchange(
-                dataProperties.buildRootPath() + "create-s1-request", HttpMethod.POST, entity, new ParameterizedTypeReference<Boolean>() {});
-        return response.getBody();
+        try {
+            log.info("Enter createS1Request");
+            final HttpEntity<PendingRegistrationData> entity = new HttpEntity<>(pendingRegistrationData, new HttpHeaders());
+            final ResponseEntity<Boolean> response = restTemplate.exchange(
+                    dataProperties.buildRootPath() + "create-s1-request", HttpMethod.POST, entity, new ParameterizedTypeReference<Boolean>() {
+                    });
+            return response.getBody();
+        } finally {
+            log.info("Exit createS1Request");
+        }
     }
 
     public String retrieveCountryDescription(final String countryCode) {
-        final HttpEntity<String> entity = new HttpEntity<>(null, new HttpHeaders());
-        final ResponseEntity<String> response = restTemplate.exchange(
-                dataProperties.buildRootPath() + "retrieve-country?countryCode=" + countryCode, HttpMethod.GET, entity, new ParameterizedTypeReference<String>() {});
-        return response.getBody();
+        try {
+            log.info("Enter retrieveCountryDescription");
+            final HttpEntity<String> entity = new HttpEntity<>(null, new HttpHeaders());
+            final ResponseEntity<String> response = restTemplate.exchange(
+                    dataProperties.buildRootPath() + "retrieve-country?countryCode=" + countryCode, HttpMethod.GET, entity, new ParameterizedTypeReference<String>() {
+                    });
+            return response.getBody();
+        } finally {
+            log.info("Exit retrieveCountryDescription");
+        }
     }
 }

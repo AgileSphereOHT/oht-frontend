@@ -33,32 +33,38 @@ public class RegistrationConfirmationController {
 
     @GetMapping(value = "/s1-registration-confirmation", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String getS1RequestConfirmation(final Model model, final HttpSession httpSession) {
-        log.info("Enter getS1RequestConfirmation");
+        try {
+            log.info("Enter getS1RequestConfirmation");
 
-        final RegistrationData oldRegistrationData = (RegistrationData)httpSession.getAttribute(OHTFrontendConstants.S1_REGISTRATION_REQUEST);
-        model.addAttribute(OHTFrontendConstants.DETAILS, createConfirmationDetails(oldRegistrationData));
-        httpSession.removeAttribute(OHTFrontendConstants.S1_REGISTRATION_REQUEST);
+            final RegistrationData oldRegistrationData = (RegistrationData) httpSession.getAttribute(OHTFrontendConstants.S1_REGISTRATION_REQUEST);
+            model.addAttribute(OHTFrontendConstants.DETAILS, createConfirmationDetails(oldRegistrationData));
+            httpSession.removeAttribute(OHTFrontendConstants.S1_REGISTRATION_REQUEST);
 
-        log.info("Exit getS1RequestConfirmation");
+        } finally {
+            log.info("Exit getS1RequestConfirmation");
+        }
         return "registration/s1-registration-confirmation";
     }
 
     @PostMapping(value = "/confirm-s1-registration", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String confirmRegistration(final RegistrationData registrationData, final Model model, final HttpSession httpSession) {
-        log.info("Enter confirmRegistration");
+        try {
+            log.info("Enter confirmRegistration");
 
-        final RegistrationData oldRegistrationData =
-                (RegistrationData)httpSession.getAttribute(OHTFrontendConstants.S1_REGISTRATION_REQUEST);
-        oldRegistrationData.setStartDate(registrationData.getStartDate());
-        oldRegistrationData.setModifiedByUserId(
-                ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
-        retrieveRegistrationsDataService.updateRegistrationData(oldRegistrationData);
-
-        log.info("Exit confirmRegistration");
+            final RegistrationData oldRegistrationData =
+                    (RegistrationData) httpSession.getAttribute(OHTFrontendConstants.S1_REGISTRATION_REQUEST);
+            oldRegistrationData.setStartDate(registrationData.getStartDate());
+            oldRegistrationData.setModifiedByUserId(
+                    ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
+            retrieveRegistrationsDataService.updateRegistrationData(oldRegistrationData);
+        } finally {
+            log.info("Exit confirmRegistration");
+        }
         return "redirect:/registration/s1-registration-confirmation";
     }
 
     private UserWorkDetails createConfirmationDetails(final RegistrationData registrationData) {
+        log.info("Enter createConfirmationDetails");
         return retrieveRegistrationsDataService.retrieveUserWorkData(
                 registrationData.getModifiedByUserId(),
                 registrationData.getUserDetails().getFirstName() + " " + registrationData.getUserDetails().getLastName());

@@ -17,12 +17,15 @@ public class HomeController {
 
     @GetMapping("/home")
     public String displayRetrieveNextCase(final Model model) {
-        log.info("Enter displayRetrieveNextCase");
-        //add logged in users first name to model
-        model.addAttribute("userFirstName",
-                StringUtils.capitalize(
-                        ((UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername()));
-        log.info("Exit displayRetrieveNextCase");
+        try {
+            log.info("Enter displayRetrieveNextCase");
+            //add logged in users first name to model
+            model.addAttribute("userFirstName",
+                    StringUtils.capitalize(
+                            ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername()));
+        } finally {
+            log.info("Exit displayRetrieveNextCase");
+        }
         return "home";
     }
 }

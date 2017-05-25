@@ -36,22 +36,24 @@ public class ManualSearchCustomer {
                                  final HttpSession httpSession,
                                  @Valid final CustomerSearchData customerSearchData,
                                  final BindingResult bindingResult) {
-        log.info("Enter searchCustomer");
+        try {
+            log.info("Enter searchCustomer");
 
-        final OpenCaseSearchResult openCaseSearchResult =
-                (OpenCaseSearchResult)httpSession.getAttribute(OHTFrontendConstants.CURRENT_INCOMING_SEARCH_RESULT);
-        model.addAttribute(OHTFrontendConstants.CUSTOMER_SEARCH_DATA, customerSearchData);
-        model.addAttribute(OHTFrontendConstants.CURRENT_INCOMING_SEARCH_RESULT, openCaseSearchResult);
+            final OpenCaseSearchResult openCaseSearchResult =
+                    (OpenCaseSearchResult) httpSession.getAttribute(OHTFrontendConstants.CURRENT_INCOMING_SEARCH_RESULT);
+            model.addAttribute(OHTFrontendConstants.CUSTOMER_SEARCH_DATA, customerSearchData);
+            model.addAttribute(OHTFrontendConstants.CURRENT_INCOMING_SEARCH_RESULT, openCaseSearchResult);
 
-        if (bindingResult.hasErrors()) {
-            log.error("Validation failed: " + bindingResult.toString());
-            model.addAttribute(OHTFrontendConstants.PARTIAL_SEARCH_RESULTS, new ArrayList<RegistrationData>());
-        } else {
-            final SearchResults searchResults = searchService.searchForNextCase(customerSearchData, openCaseSearchResult);
-            model.addAttribute(OHTFrontendConstants.PARTIAL_SEARCH_RESULTS, searchResults.getRegistrationDataList());
+            if (bindingResult.hasErrors()) {
+                log.error("Validation failed: " + bindingResult.toString());
+                model.addAttribute(OHTFrontendConstants.PARTIAL_SEARCH_RESULTS, new ArrayList<RegistrationData>());
+            } else {
+                final SearchResults searchResults = searchService.searchForNextCase(customerSearchData, openCaseSearchResult);
+                model.addAttribute(OHTFrontendConstants.PARTIAL_SEARCH_RESULTS, searchResults.getRegistrationDataList());
+            }
+        } finally {
+            log.info("Exit searchCustomer");
         }
-
-        log.info("Exit searchCustomer");
         return "registration/s1-registration-search";
     }
 }
