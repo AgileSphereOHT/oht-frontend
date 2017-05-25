@@ -51,7 +51,7 @@ public class RegistrationRequestController {
         final List<RegistrationData> registrationDataList = searchResults.getRegistrationDataList();
         if (registrationDataList.size() == 1) {
             httpSession.setAttribute(OHTFrontendConstants.S1_REGISTRATION_REQUEST, registrationDataList.get(0));
-            return "redirect:registration/s1-registration";
+            return "redirect:/registration/s1-registration";
         }
         httpSession.setAttribute(OHTFrontendConstants.PARTIAL_SEARCH_RESULTS, registrationDataList);
         httpSession.setAttribute(OHTFrontendConstants.CURRENT_INCOMING_SEARCH_RESULT, searchResults.getOpenCaseSearchResult());
@@ -73,7 +73,7 @@ public class RegistrationRequestController {
                     break;
                 }
             }
-            return "redirect:registration/s1-registration";
+            return "redirect:/registration/s1-registration";
         } finally {
             log.info("Exit getS1Registration");
         }
