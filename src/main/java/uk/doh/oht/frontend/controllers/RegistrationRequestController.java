@@ -88,7 +88,6 @@ public class RegistrationRequestController {
     public String s1Registration(final Model model, final HttpSession httpSession){
         log.info("Enter s1Registration");
         model.addAttribute("registration", httpSession.getAttribute(OHTFrontendConstants.S1_REGISTRATION_REQUEST));
-        httpSession.removeAttribute(OHTFrontendConstants.S1_REGISTRATION_REQUEST);
         log.info("Exit s1Registration");
         return "registration/s1-registration";
     }
