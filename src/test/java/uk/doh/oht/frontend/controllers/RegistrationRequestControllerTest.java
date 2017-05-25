@@ -60,7 +60,7 @@ public class RegistrationRequestControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/registration/s1-registration-request"))
                 .andExpect(handler().methodName("getNextS1Request"))
                 .andExpect(handler().handlerType(RegistrationRequestController.class))
-                .andExpect(status().is2xxSuccessful());
+                .andExpect(status().is3xxRedirection());
     }
 
     @Test
@@ -72,7 +72,6 @@ public class RegistrationRequestControllerTest {
                 .session(session))
                 .andExpect(handler().methodName("getS1Registration"))
                 .andExpect(handler().handlerType(RegistrationRequestController.class))
-                .andExpect(status().is2xxSuccessful())
-                .andExpect(model().attribute("registration", registrationData));
+                .andExpect(status().is3xxRedirection());
     }
 }

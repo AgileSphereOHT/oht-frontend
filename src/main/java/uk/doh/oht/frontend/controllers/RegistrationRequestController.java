@@ -51,8 +51,7 @@ public class RegistrationRequestController {
         final List<RegistrationData> registrationDataList = searchResults.getRegistrationDataList();
         if (registrationDataList.size() == 1) {
             httpSession.setAttribute(OHTFrontendConstants.S1_REGISTRATION_REQUEST, registrationDataList.get(0));
-            model.addAttribute("registration", registrationDataList.get(0));
-            return "registration/s1-registration-request";
+            return "redirect:registration/s1-registration";
         }
         httpSession.setAttribute(OHTFrontendConstants.PARTIAL_SEARCH_RESULTS, registrationDataList);
         httpSession.setAttribute(OHTFrontendConstants.CURRENT_INCOMING_SEARCH_RESULT, searchResults.getOpenCaseSearchResult());
@@ -67,17 +66,23 @@ public class RegistrationRequestController {
         try {
             log.info("getS1Registration getS1Registration");
             final List<RegistrationData> registrationDataList =
-                    (List<RegistrationData>)httpSession.getAttribute(OHTFrontendConstants.PARTIAL_SEARCH_RESULTS);
+                    (List<RegistrationData>) httpSession.getAttribute(OHTFrontendConstants.PARTIAL_SEARCH_RESULTS);
             for (final RegistrationData registrationData : registrationDataList) {
                 if (registrationData.getRegistrationId() == registrationId) {
                     httpSession.setAttribute(OHTFrontendConstants.S1_REGISTRATION_REQUEST, registrationData);
-                    model.addAttribute("registration", registrationData);
                     break;
                 }
             }
-            return "registration/s1-registration-request";
+            return "redirect:registration/s1-registration";
         } finally {
             log.info("Exit getS1Registration");
         }
+    }
+
+    @GetMapping(value = "/s1-registration", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public String s1Registration(final Model model, final HttpSession httpSession){
+        model.addAttribute("registration", httpSession.getAttribute(OHTFrontendConstants.S1_REGISTRATION_REQUEST));
+        httpSession.removeAttribute(OHTFrontendConstants.S1_REGISTRATION_REQUEST);
+        return "registration/s1-registration";
     }
 }
