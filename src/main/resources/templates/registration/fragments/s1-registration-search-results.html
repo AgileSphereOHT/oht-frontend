@@ -25,7 +25,7 @@
                 <td class="text" th:text="${partial.userDetails.nino}">JC 34 43 45 C</td>
                 <td class="text" th:if="${#lists.size(partial.addresses) == 0}"></td>
                 <td class="text" th:if="${#lists.size(partial.addresses) != 0}" th:utext="${partial.currentAddress}"></td>
-                <td class="text"><a th:href="${'get-s1-registration?registrationId=' + partial.registrationId}" th:text="#{search.results.select}">Select</a></td>
+                <td class="text"><a th:href="${'/registration/get-s1-registration?registrationId=' + partial.registrationId}" th:text="#{search.results.select}">Select</a></td>
             </tr>
         </tbody>
     </table>
