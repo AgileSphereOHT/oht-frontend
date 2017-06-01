@@ -1,51 +1,80 @@
-# OHT Rina Registration Frontend
+# Overseas Healthcare Service - RINA registration frontend microservice
 
-# GitLab
-https://oh-alpha-confluence.atlassian.net/wiki/display/OHA/Accessing+project+repos
+### Overview
+The following project is part of a solution for an Overseas Healthcare service commissioned by the UK Department of Health.
 
-##### Install homebrew (Type into Terminal)
-- /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+With an initial focus on provision for state pensioners living outside their country of origin, it will progressively provide a replacement for the existing Medical Benefits system currently being used to provide overseas healthcare support.
 
-##### Install Java SDK (Type into Terminal)
-- brew update
-- brew cask install java
+A key requirement of the proposed development is that it is capable of interfacing with the RINA product, developed by EESSI, which acts as the ‘middle man’ in interactions between different member states for registering foreign nationals and reimbursement of claims.
 
-##### IDE
-- We use IntelliJ from JetBrains https://www.jetbrains.com/idea/
-You can use other IDE if you wish, e.g. Eclipse, but make sure the formatting of code follow our standards.
+The initial development has successfully delivered a demonstration of this interface working against a deployed instance of RINA, and a front end that is in line with the S1 Request and Registration ‘happy paths' of the prototype being tested against user needs.
 
-##### Lombok
-We use Lombok https://projectlombok.org/ which adds annotations to Java and simplify our code.
-To allow IntelliJ to support Lombok install the plugin:
-- Preferences > Plugins > Browse Repositories... > search Lombok > Install
-- Preferences > search Annotation processes (ensure enabled for all)
+### Solution services
+The current solution has been developed as three REST based micro services built using Spring Boot running on an embedded Tomcat web container.
 
-##### JIRA
-- https://agilesphereoht.atlassian.net
+    oht-frontend (this project)
+    oht-database (**cross reference**)
+    oht-rina-registration (**cross reference**)
 
-##### Confluence
-- https://oh-alpha-confluence.atlassian.net/wiki/display/OHA/Overseas+Healthcare+Alpha
+There is also a common shared library containing the definitions of system domain data objects.
 
-##### Default Users
-- ramesh/ramesh123
-- june/june123
-- heather/heather123
+    ohs-common (**cross reference**)
 
-# Artifactory repository access
-#### Certificate
-##### Download the self-signed cert on dev box
-- echo -n | openssl s_client -connect ohartidev.overseashealthcaredev.co.uk:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > *overseashealthcaredev.co.uk.cer
+### Technologies being used across projects
+- Spring MVC
+- Thymeleaf
+- Spring Security
+- OAuth2
+- JPA
+- Liquibase
+- PostgreSQL
+- Gradle
+- Lombok
+- Swagger
 
-##### Import into keystore
-- sudo $JAVA_HOME/bin/keytool -import -keystore $JAVA_HOME/jre/lib/security/cacerts -alias overseashealthcaredev -file *.overseashealthcaredev.co.uk.cer
-- password=changeit
+### This project
+The oht-frontend microservice provides the web interface for the Overseas Healthcare solution. 
 
-##### Add to gradle properties (USERHOME/.gradle/gradle.properties)
-- artifactory_user=your.artifactory.username
-- artifactory_password=your.artifactory.password
-  - login to artifactory click your user name top right, unlock page and copy Encrypted Password field
-- org.gradle.daemon=true
-- artifactory_url=https://ohartidev.overseashealthcaredev.co.uk/artifactory/
-- org.gradle.jvmargs=-Djavax.net.ssl.keyStore=path.to.your.java(needs to match - java used in gradle IntelliJ)/jre/lib/security/cacerts -Djavax.net.ssl.keyStoreType=JKS -Djavax.net.ssl.keyStorePassword=changeit
+The frontend service is delivered via a Spring MVC based web application hosted in an embedded Tomcat container.
+Thymeleaf is being used as a web tamplate engine.
+
+Functionally it covers a case worker's access to their caseload, allowing them to handle simple S1 request submissions and S1 registrations.
+
+It interacts with a deployed instance of RINA via the oht-rina-registration microservice.
+
+Application data is stored in a PostgreSQL database via the oht-database microservice.
+
+For the domain objects Lombok is being used to reduce the boilerplate code and keep the code clean.
+
+### Build
+
+Assumes local installation of gradle
+
+From project root
+
+    gradle clean                to clear build dir
+    gradle test                 to compile and run unit tests
+    gradle jar                  to build jar file
+    gradle build                to compile, run tests and create jar file
+    gradle publishToMavenLocal  to build and install jar in local maven repo
+    gradle bootrun              to start up microservice in embedded tomcat container
+
+#### Application Entry
+
+Out of the box and running on a local tomcat instance....
+
+Login at url
+
+    http://localhost:8000/login
+
+with built in default users
+
+    ramesh / ramesh123
+    june / june123
+    heather / heather123
+
+#### See also
+
+https://oh-alpha-confluence.atlassian.net/wiki/display/OHA/Setting+up+development+environment
 
 
